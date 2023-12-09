@@ -1,18 +1,15 @@
 {
-  "name": "lower-case-dashed-name-of-project",
-  "repository": "cos426finalproject",
+  "name": "hamster-battle",
+  "repository": "COS426_Hamster_Battle",
   "version": "0.1.0",
-  "title": "PROJECT TITLE HERE",
-  "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
+  "title": "Hamster Battle",
+  "description": "Hamsters in balls battle",
   "keywords": [
     "Princeton",
     "graphics",
     "three.js",
     "COS 426",
-    "keywor0d",
-    "keyword1",
-    "keyword2-etc",
-    "but this last entry CANNOT have a comma after it ->"
+    "hamster"
   ],
   "scripts": {
     "start": "webpack-dev-server --mode development --output-public-path \"\"",
