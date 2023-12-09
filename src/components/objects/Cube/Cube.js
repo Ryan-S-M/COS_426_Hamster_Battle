@@ -13,7 +13,10 @@ class Cube extends Group {
         // const cubeA = new THREE.Mesh( geometry, material );
         this.add(new Mesh(geometry, material));
 
-        // parent.addToUpdateList(this);
+        parent.addToUpdateList(this);
+    }
+    update(timeStamp) {
+        this.position.x = (timeStamp / 1000) % 2;
     }
 }
 

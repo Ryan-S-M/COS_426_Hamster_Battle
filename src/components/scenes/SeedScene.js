@@ -23,7 +23,7 @@ class SeedScene extends Scene {
         const land = new Land();
         const flower = new Flower(this);
         const lights = new BasicLights();
-        const cube = new Cube();
+        const cube = new Cube(this);
         this.add(land, flower, lights, cube);
 
         // Populate GUI
@@ -36,7 +36,11 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
+        // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
+        
+        // make scene move up instead of rotation
+        this.rotation.y = 0;
+        this.position.y = (timeStamp / 5000.0) % 5;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
