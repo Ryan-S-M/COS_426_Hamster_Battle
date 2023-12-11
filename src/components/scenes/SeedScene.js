@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Flower, Land, Cube, Box} from 'objects';
+import { HamsterSphere, Box} from 'objects';
 import { BasicLights } from 'lights';
 
 class SeedScene extends Scene {
@@ -25,7 +25,9 @@ class SeedScene extends Scene {
         const lights = new BasicLights();
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
-        this.add(lights, box);
+        const playerSphere = new HamsterSphere(this, 1);
+        playerSphere.position.y = 3;
+        this.add(lights, box, playerSphere);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
