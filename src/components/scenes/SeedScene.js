@@ -25,10 +25,11 @@ class SeedScene extends Scene {
         // const flower = new Flower(this);
         const lights = new BasicLights();
         // const cube = new Cube(this);
-        const box = new Box(this, 15, 15, 0.5);
+        const box = new Box(this, 5, 5, 0.5);
         this.box = box;
         const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
-        playerSphere.changePos(new Vector3(0, 3, 0));
+        playerSphere.changePos(new Vector3(3, 3, 0));
+        playerSphere.setVel(new Vector3(0, 100, 0));
         this.add(lights, box, playerSphere);
 
         // Populate GUI
