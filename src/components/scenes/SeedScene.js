@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
+import { Scene, Color, Vector3 } from 'three';
 import { HamsterSphere, Box} from 'objects';
 import { BasicLights } from 'lights';
 
@@ -25,8 +25,8 @@ class SeedScene extends Scene {
         const lights = new BasicLights();
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
-        const playerSphere = new HamsterSphere(this, 1);
-        playerSphere.position.y = 3;
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        playerSphere.changePos(new Vector3(0, 3, 0));
         this.add(lights, box, playerSphere);
 
         // Populate GUI
