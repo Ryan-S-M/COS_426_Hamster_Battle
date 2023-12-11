@@ -13,6 +13,7 @@ class SeedScene extends Scene {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 1,
             updateList: [],
+            sphereList: [],
         };
 
         // Set background to a nice color
@@ -25,6 +26,7 @@ class SeedScene extends Scene {
         const lights = new BasicLights();
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
+        this.box = box;
         const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         playerSphere.changePos(new Vector3(0, 3, 0));
         this.add(lights, box, playerSphere);
@@ -37,8 +39,12 @@ class SeedScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    addToSphereList(object) {
+        this.state.sphereList.push(object);
+    }
+
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
+        const { rotationSpeed, updateList, sphereList } = this.state;
         // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
         
         // make scene move up instead of rotation
@@ -49,6 +55,9 @@ class SeedScene extends Scene {
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
+        }
+        for (const sphere of sphereList) {
+            sphere.handleBoxCollision(this.box);
         }
     }
 }

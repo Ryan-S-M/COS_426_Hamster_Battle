@@ -7,13 +7,14 @@ class Box extends Group {
         this.name = 'box';
         
         // taken from example in https://threejs.org/docs/#api/en/objects/Group
-        const geometry = new BoxGeometry( length, height, width);
+        this.geometry = new BoxGeometry( length, height, width);
         const material = new MeshPhongMaterial( {color: 0x333333} );
         
         // const cubeA = new THREE.Mesh( geometry, material );
-        this.add(new Mesh(geometry, material));
+        this.add(new Mesh(this.geometry, material));
 
         parent.addToUpdateList(this);
+        this.geometry.computeBoundingBox();
     }
     update(timeStamp) {
         // this.position.x = (timeStamp / 1000) % 2;
