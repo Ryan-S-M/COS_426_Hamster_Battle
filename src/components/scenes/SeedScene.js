@@ -20,12 +20,12 @@ class SeedScene extends Scene {
         // this.background = new Color(0xff0000);
 
         // Add meshes to scene
-        const land = new Land();
-        const flower = new Flower(this);
+        // const land = new Land();
+        // const flower = new Flower(this);
         const lights = new BasicLights();
-        const cube = new Cube(this);
-        const box = new Box(this, 10, 10, 1);
-        this.add(land, flower, lights, cube, box);
+        // const cube = new Cube(this);
+        const box = new Box(this, 15, 15, 0.5);
+        this.add(lights, box);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -40,8 +40,8 @@ class SeedScene extends Scene {
         // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
         
         // make scene move up instead of rotation
-        this.rotation.y = 0;
-        this.position.x = (timeStamp / 5000.0) % 3;
+        // this.rotation.y = 0;
+        // this.position.x = (timeStamp / 5000.0) % 3;
         // this.position.y = (timeStamp / 5000.0) % 5;
 
         // Call update for each object in the updateList
