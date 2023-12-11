@@ -1,4 +1,4 @@
-import { Group, BoxGeometry, Mesh, MeshPhongMaterial} from 'three';
+import { Group, BoxGeometry, Mesh, MeshPhongMaterial, Vector3} from 'three';
 
 class Box extends Group {
     constructor(parent, length, width, height) {
@@ -19,6 +19,22 @@ class Box extends Group {
     update(timeStamp) {
         // this.position.x = (timeStamp / 1000) % 2;
         // this.position.y = (- timeStamp / 1000) % 2
+    }
+
+    // return whether this box is touching this sphere
+    isTouchingSphere(pos, radius) {
+        const boundingBox = this.geometry.boundingBox.clone();
+        const EPS = 0.01;
+        boundingBox.expandByVector(new Vector3(2 * EPS, 2 * EPS, 2 * EPS));
+        const closestPointInBox = boundingBox.max.clone().min(boundingBox.min.clone().max(pos));
+        const dist = closestPointInBox.clone().sub(pos).lengthSq();
+        const realBoundingBox = this.geometry.boundingBox.clone();
+        const realClosest = realBoundingBox.max.clone().min(realBoundingBox.min.clone().max(pos))
+        // console.log("pos: ", pos);
+        // console.log("closest: ", closestPointInBox);
+        // console.log("dist: ", dist);
+        // console.log("diff should be ", pos.clone().sub(closestPointInBox));
+        return [dist < radius * radius, pos.clone().sub(realClosest)];
     }
 }
 

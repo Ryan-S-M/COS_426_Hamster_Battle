@@ -13,9 +13,12 @@ class HamsterSphere extends Group {
         this.position.set(x, y, z);
 
         this.netForce = new Vector3();
+        this.lastNetForce = new Vector3();
         this.previous = new Vector3().copy(this.position);
         this.prevTime = -1;
 
+        // add an array of objects we're touching
+        this.touching = [];
 
         
         // taken from example in https://threejs.org/docs/#api/en/objects/Group
@@ -29,23 +32,46 @@ class HamsterSphere extends Group {
         parent.addToSphereList(this);
     }
     update(timeStamp) {
+        console.log("update() called");
         // set initial time
         if (this.prevTime == -1) {
             this.prevTime = timeStamp;
             return;
         }
-        console.log("position: ", this.position);
+        // console.log("position: ", this.position);
         // console.log("deltaT: ", (timeStamp - this.prevTime) / 500.0)
         
         // fixed delta
-        const deltaT = 0.05;
+        const deltaT = 0.03;
 
         // apply gravity and integrate
         this.applyGravity();
+
+        // calculate normal forces
+        for (const obj of this.touching) {
+            let [isTouching, diff] = obj.isTouchingSphere(this.position, this.radius) 
+            if (isTouching){
+                // console.log("hey");
+                console.log("net force before normal: ", this.netForce);
+
+                const normalForce = diff.clone().multiplyScalar(- this.netForce.dot(diff))
+                this.addForce(normalForce);
+                console.log("normalForce: ", normalForce);
+                console.log("dot: ", this.netForce.dot(diff));
+                console.log("diff is", diff);
+                console.log("net force after: ", this.netForce);
+            }
+        }
+        
         // 200 seems to work well, at least initially for falling distances
         // this.verletIntegrate((timeStamp - this.prevTime) / 500.0);
+        console.log("about to integrate");
         this.verletIntegrate(deltaT);
         this.prevTime = timeStamp;
+    }
+
+    // if close to a box, apply the normal force
+    normalForceBox(box) {
 
     }
 
@@ -122,13 +148,20 @@ class HamsterSphere extends Group {
         //   console.log("posNoFriction: ", posNoFriction);
         //   console.log("diff: ", diff);
           this.position.copy(posNoFriction.add(diff.normalize().multiplyScalar(this.radius)));
+          
+          if (!this.touching.includes(box)) {
+            this.touching.push(box);
+          }
+          // hacky?
+          // approximate force applied to box
+        //   console.log("diff:", diff);
+        //   console.log("last net force: ", this.lastNetForce);
+        //   this.addForce(diff.clone().multiplyScalar(- diff.dot(this.lastNetForce)));
         //   console.log("After intersecting: ", this.position);
         //   console.log("\n***************************************")
 
         }
     }
-
-
 
     // applyGravity to this object
     applyGravity() {
@@ -139,27 +172,40 @@ class HamsterSphere extends Group {
 
     // Verlet Integration, based on A5
     verletIntegrate(deltaT) {
+        console.log("verlet called()");
+        console.log("net force is ", this.netForce);
         // console.log("net force: ", this.netForce);
         // console.log("previous: ", this.previous);
         // console.log("current position: ", this.position)
         const DAMPING = 0.03;
 
         // find the difference between current and previous positions
-        const diff = this.position.clone().sub(this.previous);
+        // modification: calculate velocity term
+
+        // const diff = this.position.clone().sub(this.previous);
+        const diff = this.velocity.clone();
+
     
         // update current position
         this.previous = this.position;
-    
+
         // find acceleration
         const a = this.netForce.multiplyScalar(1 / this.mass);
     
         // apply formula
-        diff.multiplyScalar(1 - DAMPING);
-        a.multiplyScalar(deltaT * deltaT);
-        diff.add(a);
+        diff.multiplyScalar(1 - DAMPING).multiplyScalar(deltaT);
+        const a_scaled = a.clone().multiplyScalar(deltaT * deltaT);
+        diff.add(a_scaled);
         this.position.copy(this.previous.clone().add(diff));
     
+        this.lastNetForce.copy(this.netForce);
         this.netForce = new Vector3(0, 0, 0);
+
+
+         // update velocity term
+         console.log("acceleration: ", a);
+         console.log("velocity: ", this.velocity);
+         this.velocity.add(a.multiplyScalar(deltaT));
     }
 
     // add force
