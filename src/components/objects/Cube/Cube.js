@@ -16,7 +16,8 @@ class Cube extends Group {
         parent.addToUpdateList(this);
     }
     update(timeStamp) {
-        this.position.x = (timeStamp / 1000) % 2;
+        // this.position.x = (timeStamp / 1000) % 2;
+        // this.position.y = (- timeStamp / 1000) % 2
     }
 }
 

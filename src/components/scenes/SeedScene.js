@@ -40,7 +40,8 @@ class SeedScene extends Scene {
         
         // make scene move up instead of rotation
         this.rotation.y = 0;
-        this.position.y = (timeStamp / 5000.0) % 5;
+        this.position.x = (timeStamp / 5000.0) % 3;
+        // this.position.y = (timeStamp / 5000.0) % 5;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
