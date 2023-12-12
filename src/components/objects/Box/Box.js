@@ -15,6 +15,7 @@ class Box extends Group {
 
         parent.addToUpdateList(this);
         this.geometry.computeBoundingBox();
+        // console.log("bounding box: ", this.boundingBox);
     }
     update(timeStamp) {
         // this.position.x = (timeStamp / 1000) % 2;
@@ -36,6 +37,19 @@ class Box extends Group {
         // console.log("diff should be ", pos.clone().sub(closestPointInBox));
         return [dist < radius * radius, pos.clone().sub(realClosest)];
     }
+    // update position
+    updatePos(x, y, z) {
+        console.log("box position before setting: ", this.position)
+        console.log("bounding box before updating: ", this.geometry.boundingBox);
+        this.position.copy(new Vector3(x, y, z));
+        // console.log("hi");
+        this.geometry.computeBoundingBox();
+        // console.log("bye");
+        // this.geometry.computeBoundingBox();
+        console.log("bounding box: ", this.geometry.boundingBox);
+        console.log("position after setting: ", this.position);
+    }
+
 }
 
 export default Box;

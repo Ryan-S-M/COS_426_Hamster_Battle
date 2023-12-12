@@ -32,6 +32,13 @@ class SeedScene extends Scene {
         playerSphere.setVel(new Vector3(-1, 2, 0));
         this.add(lights, box, playerSphere);
 
+        // testing
+        // const box2 = new Box(this, 2, 1, 2);
+        // // box2.position.sub(new Vector3(1, 0, 0));
+        // box2.updatePos(-2, 0, 0);
+        // this.box2 = box2;
+        // this.add(box2);
+
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
@@ -59,6 +66,7 @@ class SeedScene extends Scene {
         }
         for (const sphere of sphereList) {
             sphere.handleBoxCollision(this.box);
+            // sphere.handleBoxCollision(this.box2);
         }
     }
 }

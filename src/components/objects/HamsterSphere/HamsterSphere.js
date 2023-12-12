@@ -1,4 +1,4 @@
-import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3} from 'three';
+import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3, Box3} from 'three';
 
 class HamsterSphere extends Group {
 
@@ -89,7 +89,9 @@ class HamsterSphere extends Group {
 
     // adapted from A5
     handleBoxCollision(box) {
-        const boundingBox = box.geometry.boundingBox.clone();
+        // console.log("box: ", box);
+        // const boundingBox = box.geometry.boundingBox.clone();
+        const boundingBox = new Box3().setFromObject(box);
         const posNoFriction = new Vector3();
         // not sure if we really need epsilon here
         const EPS = 0;
