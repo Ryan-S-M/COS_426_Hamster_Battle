@@ -18,7 +18,7 @@ class HamsterSphere extends Group {
         this.prevTime = -1;
 
         // add an array of objects we're touching
-        this.touching = [];
+        // this.touching = [];
 
         
         // taken from example in https://threejs.org/docs/#api/en/objects/Group
@@ -50,24 +50,24 @@ class HamsterSphere extends Group {
         // calculate normal forces
         // alternate to remove
 
-        this.touching = this.touching.filter(obj => obj.isTouchingSphere(this.position, this.radius)[0]);
+        // this.touching = this.touching.filter(obj => obj.isTouchingSphere(this.position, this.radius)[0]);
         // let array = [1, 2, 3];
         // array = array.filter(entry => entry < 2);
         // console.log(array);
-        for (const obj of this.touching) {
-            let [isTouching, diff] = obj.isTouchingSphere(this.position, this.radius) 
-            // console.log("touching at time ", timeStamp);
-            // console.log("hey");
-            console.log("net force before normal: ", this.netForce);
+        // for (const obj of this.touching) {
+        //     let [isTouching, diff] = obj.isTouchingSphere(this.position, this.radius) 
+        //     // console.log("touching at time ", timeStamp);
+        //     // console.log("hey");
+        //     console.log("net force before normal: ", this.netForce);
 
-            const normalForce = diff.clone().normalize().multiplyScalar(- this.netForce.dot(diff.clone().normalize()))
-            // this.addForce(normalForce);
-            console.log("normalForce: ", normalForce);
-            console.log("dot: ", this.netForce.dot(diff));
-            console.log("diff is", diff);
-            console.log("net force after: ", this.netForce);
+        //     const normalForce = diff.clone().normalize().multiplyScalar(- this.netForce.dot(diff.clone().normalize()))
+        //     // this.addForce(normalForce);
+        //     console.log("normalForce: ", normalForce);
+        //     console.log("dot: ", this.netForce.dot(diff));
+        //     console.log("diff is", diff);
+        //     console.log("net force after: ", this.netForce);
             
-        }
+        // }
         
         // 200 seems to work well, at least initially for falling distances
         // this.verletIntegrate((timeStamp - this.prevTime) / 500.0);
@@ -83,14 +83,8 @@ class HamsterSphere extends Group {
         // console.log("diff length: ", diff.length());
         if (diff.lengthSq() < (this.radius + otherBall.radius) * (this.radius + otherBall.radius)) {
             // console.log("overlapping spheres!!");
-
-            
-
-
-
-            // initial approach: just update velocities, ignore how they're overlapping
             const diff_norm = diff.clone().normalize();
-            const neg_diff_norm = diff_norm.clone().multiplyScalar(-1);
+            // const neg_diff_norm = diff_norm.clone().multiplyScalar(-1);
             const otherToInt = diff_norm.clone().multiplyScalar(diff.length() * otherBall.radius / (otherBall.radius + this.radius));
             const intersect = otherBall.position.clone().add(otherToInt);
 
@@ -193,9 +187,9 @@ class HamsterSphere extends Group {
         //   console.log("diff: ", diff);
           this.position.copy(posNoFriction.add(diff.clone().normalize().multiplyScalar(this.radius)));
           
-          if (!this.touching.includes(box)) {
-            this.touching.push(box);
-          }
+        //   if (!this.touching.includes(box)) {
+        //     this.touching.push(box);
+        //   }
 
           // reflect velocity in this direction
           // TODO: FIGURE OUT WHY THIS DOESN"T WORK WITH RADIUS > 1
@@ -257,8 +251,8 @@ class HamsterSphere extends Group {
 
 
          // update velocity term
-         console.log("acceleration: ", a);
-         console.log("velocity: ", this.velocity);
+        //  console.log("acceleration: ", a);
+        //  console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
 
         //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {
