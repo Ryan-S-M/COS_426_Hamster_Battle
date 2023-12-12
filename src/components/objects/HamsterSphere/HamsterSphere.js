@@ -58,14 +58,14 @@ class HamsterSphere extends Group {
             let [isTouching, diff] = obj.isTouchingSphere(this.position, this.radius) 
             // console.log("touching at time ", timeStamp);
             // console.log("hey");
-            // console.log("net force before normal: ", this.netForce);
+            console.log("net force before normal: ", this.netForce);
 
-            const normalForce = diff.clone().multiplyScalar(- this.netForce.dot(diff))
+            const normalForce = diff.clone().normalize().multiplyScalar(- this.netForce.dot(diff.clone().normalize()))
             this.addForce(normalForce);
-            // console.log("normalForce: ", normalForce);
-            // console.log("dot: ", this.netForce.dot(diff));
-            // console.log("diff is", diff);
-            // console.log("net force after: ", this.netForce);
+            console.log("normalForce: ", normalForce);
+            console.log("dot: ", this.netForce.dot(diff));
+            console.log("diff is", diff);
+            console.log("net force after: ", this.netForce);
             
         }
         
@@ -198,8 +198,13 @@ class HamsterSphere extends Group {
           }
 
           // reflect velocity in this direction
-          const reflectVel = diff.clone().multiplyScalar(- 1 * this.velocity.dot(diff));
+          // TODO: FIGURE OUT WHY THIS DOESN"T WORK WITH RADIUS > 1
+          const reflectVel = diff.clone().normalize().multiplyScalar(- 1 * this.velocity.dot(diff.clone().normalize()));
           this.velocity.add(reflectVel);
+
+
+
+
 
           // hacky?
           // approximate force applied to box

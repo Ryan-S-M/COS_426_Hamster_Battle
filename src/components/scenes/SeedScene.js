@@ -27,10 +27,10 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1.1, 0, 0, 0, 6);
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // playerSphere.changePos(new Vector3(3, 3, 3));
-        playerSphere.changePos(new Vector3(3, 6, 3.1));
-        playerSphere.setVel(new Vector3(0, 5, 0));
+        playerSphere.changePos(new Vector3(0, 6, 6));
+        playerSphere.setVel(new Vector3(0, 2, -1));
 
         // const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // anotherSphere.changePos(new Vector3(3, 2.5, 3));
@@ -38,11 +38,11 @@ class SeedScene extends Scene {
         // this.add(lights, box, playerSphere, anotherSphere);
         this.add(lights, box, playerSphere)
         // testing
-        // const box2 = new Box(this, 2, 1, 2);
-        // // // box2.position.sub(new Vector3(1, 0, 0));
-        // box2.updatePos(-2, 0, 0);
-        // this.box2 = box2;
-        // this.add(box2);
+        const box2 = new Box(this, 2, 1, 2);
+        // // box2.position.sub(new Vector3(1, 0, 0));
+        box2.updatePos(0, 0, 0);
+        this.box2 = box2;
+        this.add(box2);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -73,7 +73,7 @@ class SeedScene extends Scene {
         // collide spheres with box
         for (const sphere of sphereList) {
             sphere.handleBoxCollision(this.box);
-            // sphere.handleBoxCollision(this.box2);
+            sphere.handleBoxCollision(this.box2);
         }
 
         // collide spheres with each other
