@@ -32,7 +32,7 @@ class HamsterSphere extends Group {
         parent.addToSphereList(this);
     }
     update(timeStamp) {
-        console.log("update() called");
+        // console.log("update() called");
         // set initial time
         if (this.prevTime == -1) {
             this.prevTime = timeStamp;
@@ -76,15 +76,43 @@ class HamsterSphere extends Group {
         this.prevTime = timeStamp;
     }
 
-    // if close to a box, apply the normal force
-    normalForceBox(box) {
-
-    }
-
-
     // otherBall is a HamsterSphere object
     collideBall(otherBall) {
-        
+        // first, determine if these balls are overlapping
+        const diff = this.position.clone().sub(otherBall.position);
+        // console.log("diff length: ", diff.length());
+        if (diff.lengthSq() < (this.radius + otherBall.radius) * (this.radius + otherBall.radius)) {
+            // console.log("overlapping spheres!!");
+
+            // initial approach: just update velocities, ignore how they're overlapping
+            const diff_norm = diff.clone().normalize();
+            const neg_diff_norm = diff_norm.clone().multiplyScalar(-1);
+            const otherToInt = diff_norm.clone().multiplyScalar(otherBall.radius);
+            const intersect = otherBall.position.clone().add(otherToInt);
+
+            // const u1 = neg_diff_norm.dot(this.velocity);
+            const u1 = diff_norm.dot(this.velocity);
+            const u2 = diff_norm.dot(otherBall.velocity);
+
+            const m1 = this.mass;
+            const m2 = otherBall.mass;
+            console.log("m1", m1);
+            console.log("m2", m2);
+            console.log("u1, ", u1);
+            console.log("u2, ", u2);
+            const v1 = (m1 - m2) / (m1 + m2) * u1 + 2 * m2 / (m1 + m2) * u2;
+            const v2 = 2 * m1 / (m1 + m2) * u1 + (m2 - m1) / (m1 + m2) * u2;
+            console.log("v1, ", v1);
+            console.log("v2, ", v2);
+
+            // this.velocity.sub(neg_diff_norm.clone().multiplyScalar(u1));
+            this.velocity.sub(diff_norm.clone().multiplyScalar(u1));
+            otherBall.velocity.sub(diff_norm.clone().multiplyScalar(u2));
+
+            this.velocity.add(diff_norm.clone().multiplyScalar(v1));
+            // otherBall.velocity.add(neg_diff_norm.clone().multiplyScalar(v2));
+            otherBall.velocity.add(diff_norm.clone().multiplyScalar(v2));
+        }
     }
 
     // adapted from A5
@@ -155,7 +183,7 @@ class HamsterSphere extends Group {
         //   console.log("before intersecting: ", this.position);
         //   console.log("posNoFriction: ", posNoFriction);
         //   console.log("diff: ", diff);
-          this.position.copy(posNoFriction.add(diff.normalize().multiplyScalar(this.radius)));
+          this.position.copy(posNoFriction.add(diff.clone().normalize().multiplyScalar(this.radius)));
           
           if (!this.touching.includes(box)) {
             this.touching.push(box);
@@ -216,8 +244,8 @@ class HamsterSphere extends Group {
 
 
          // update velocity term
-         console.log("acceleration: ", a);
-         console.log("velocity: ", this.velocity);
+        //  console.log("acceleration: ", a);
+        //  console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
 
         //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {

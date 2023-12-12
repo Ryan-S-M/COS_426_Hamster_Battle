@@ -27,14 +27,18 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
-        playerSphere.changePos(new Vector3(3, 3, 0));
-        playerSphere.setVel(new Vector3(-1, 2, 0));
-        this.add(lights, box, playerSphere);
+        const playerSphere = new HamsterSphere(this, 1.1, 0, 0, 0, 1);
+        playerSphere.changePos(new Vector3(5, 3, 0));
+        playerSphere.setVel(new Vector3(0, 2, 0));
 
+        // const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, 10);
+        // anotherSphere.changePos(new Vector3(-5, 3, 0));
+        // anotherSphere.setVel(new Vector3(0, 2, 0));
+        // this.add(lights, box, playerSphere, anotherSphere);
+        this.add(lights, box, playerSphere)
         // testing
         // const box2 = new Box(this, 2, 1, 2);
-        // // box2.position.sub(new Vector3(1, 0, 0));
+        // // // box2.position.sub(new Vector3(1, 0, 0));
         // box2.updatePos(-2, 0, 0);
         // this.box2 = box2;
         // this.add(box2);
@@ -64,10 +68,21 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        // collide spheres with box
         for (const sphere of sphereList) {
             sphere.handleBoxCollision(this.box);
             // sphere.handleBoxCollision(this.box2);
         }
+
+        // collide spheres with each other
+        for (let i = 0; i < sphereList.length; i++) {
+            for (let j = i + 1; j < sphereList.length; j++) {
+                sphereList[i].collideBall(sphereList[j]);
+            }
+        }
+
+
     }
 }
 

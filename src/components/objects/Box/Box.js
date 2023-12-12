@@ -30,7 +30,7 @@ class Box extends Group {
         const closestPointInBox = boundingBox.max.clone().min(boundingBox.min.clone().max(pos));
         const dist = closestPointInBox.clone().sub(pos).lengthSq();
         const realBoundingBox = this.geometry.boundingBox.clone();
-        const realClosest = realBoundingBox.max.clone().min(realBoundingBox.min.clone().max(pos))
+        const realClosest = realBoundingBox.max.clone().min(realBoundingBox.min.clone().max(pos));
         // console.log("pos: ", pos);
         // console.log("closest: ", closestPointInBox);
         // console.log("dist: ", dist);
@@ -39,15 +39,15 @@ class Box extends Group {
     }
     // update position
     updatePos(x, y, z) {
-        console.log("box position before setting: ", this.position)
-        console.log("bounding box before updating: ", this.geometry.boundingBox);
+        // console.log("box position before setting: ", this.position)
+        // console.log("bounding box before updating: ", this.geometry.boundingBox);
         this.position.copy(new Vector3(x, y, z));
         // console.log("hi");
         this.geometry.computeBoundingBox();
         // console.log("bye");
         // this.geometry.computeBoundingBox();
-        console.log("bounding box: ", this.geometry.boundingBox);
-        console.log("position after setting: ", this.position);
+        // console.log("bounding box: ", this.geometry.boundingBox);
+        // console.log("position after setting: ", this.position);
     }
 
 }
