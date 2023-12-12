@@ -251,8 +251,8 @@ class HamsterSphere extends Group {
 
 
          // update velocity term
-        //  console.log("acceleration: ", a);
-        //  console.log("velocity: ", this.velocity);
+         console.log("acceleration: ", a);
+         console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
 
         //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {
