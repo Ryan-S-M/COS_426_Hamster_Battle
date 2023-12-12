@@ -61,7 +61,7 @@ class HamsterSphere extends Group {
             console.log("net force before normal: ", this.netForce);
 
             const normalForce = diff.clone().normalize().multiplyScalar(- this.netForce.dot(diff.clone().normalize()))
-            this.addForce(normalForce);
+            // this.addForce(normalForce);
             console.log("normalForce: ", normalForce);
             console.log("dot: ", this.netForce.dot(diff));
             console.log("diff is", diff);
@@ -257,8 +257,8 @@ class HamsterSphere extends Group {
 
 
          // update velocity term
-        //  console.log("acceleration: ", a);
-        //  console.log("velocity: ", this.velocity);
+         console.log("acceleration: ", a);
+         console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
 
         //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {

@@ -29,8 +29,8 @@ class SeedScene extends Scene {
         this.box = box;
         const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // playerSphere.changePos(new Vector3(3, 3, 3));
-        playerSphere.changePos(new Vector3(0, 6, 6));
-        playerSphere.setVel(new Vector3(0, 2, -1));
+        playerSphere.changePos(new Vector3(6, 6, 0));
+        playerSphere.setVel(new Vector3(-1, 2, 0));
 
         // const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // anotherSphere.changePos(new Vector3(3, 2.5, 3));
@@ -40,7 +40,7 @@ class SeedScene extends Scene {
         // testing
         const box2 = new Box(this, 2, 1, 2);
         // // box2.position.sub(new Vector3(1, 0, 0));
-        box2.updatePos(0, 0, 0);
+        box2.updatePos(-2, 0, 0);
         this.box2 = box2;
         this.add(box2);
 
