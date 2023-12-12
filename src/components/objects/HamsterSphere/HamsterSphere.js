@@ -48,24 +48,30 @@ class HamsterSphere extends Group {
         this.applyGravity();
 
         // calculate normal forces
+        // alternate to remove
+
+        this.touching = this.touching.filter(obj => obj.isTouchingSphere(this.position, this.radius)[0]);
+        // let array = [1, 2, 3];
+        // array = array.filter(entry => entry < 2);
+        // console.log(array);
         for (const obj of this.touching) {
             let [isTouching, diff] = obj.isTouchingSphere(this.position, this.radius) 
-            if (isTouching){
-                // console.log("hey");
-                console.log("net force before normal: ", this.netForce);
+            // console.log("touching at time ", timeStamp);
+            // console.log("hey");
+            // console.log("net force before normal: ", this.netForce);
 
-                const normalForce = diff.clone().multiplyScalar(- this.netForce.dot(diff))
-                this.addForce(normalForce);
-                console.log("normalForce: ", normalForce);
-                console.log("dot: ", this.netForce.dot(diff));
-                console.log("diff is", diff);
-                console.log("net force after: ", this.netForce);
-            }
+            const normalForce = diff.clone().multiplyScalar(- this.netForce.dot(diff))
+            this.addForce(normalForce);
+            // console.log("normalForce: ", normalForce);
+            // console.log("dot: ", this.netForce.dot(diff));
+            // console.log("diff is", diff);
+            // console.log("net force after: ", this.netForce);
+            
         }
         
         // 200 seems to work well, at least initially for falling distances
         // this.verletIntegrate((timeStamp - this.prevTime) / 500.0);
-        console.log("about to integrate");
+        // console.log("about to integrate");
         this.verletIntegrate(deltaT);
         this.prevTime = timeStamp;
     }
@@ -152,6 +158,11 @@ class HamsterSphere extends Group {
           if (!this.touching.includes(box)) {
             this.touching.push(box);
           }
+
+          // reflect velocity in this direction
+          const reflectVel = diff.clone().multiplyScalar(- 1 * this.velocity.dot(diff));
+          this.velocity.add(reflectVel);
+
           // hacky?
           // approximate force applied to box
         //   console.log("diff:", diff);
@@ -172,8 +183,8 @@ class HamsterSphere extends Group {
 
     // Verlet Integration, based on A5
     verletIntegrate(deltaT) {
-        console.log("verlet called()");
-        console.log("net force is ", this.netForce);
+        // console.log("verlet called()");
+        // console.log("net force is ", this.netForce);
         // console.log("net force: ", this.netForce);
         // console.log("previous: ", this.previous);
         // console.log("current position: ", this.position)
@@ -206,6 +217,11 @@ class HamsterSphere extends Group {
          console.log("acceleration: ", a);
          console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
+
+        //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {
+        //     this.velocity = new Vector3();
+        //  }
+
     }
 
     // add force
