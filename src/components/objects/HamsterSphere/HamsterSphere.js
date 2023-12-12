@@ -84,12 +84,20 @@ class HamsterSphere extends Group {
         if (diff.lengthSq() < (this.radius + otherBall.radius) * (this.radius + otherBall.radius)) {
             // console.log("overlapping spheres!!");
 
+            
+
+
+
             // initial approach: just update velocities, ignore how they're overlapping
             const diff_norm = diff.clone().normalize();
             const neg_diff_norm = diff_norm.clone().multiplyScalar(-1);
-            const otherToInt = diff_norm.clone().multiplyScalar(otherBall.radius);
+            const otherToInt = diff_norm.clone().multiplyScalar(diff.length() * otherBall.radius / (otherBall.radius + this.radius));
             const intersect = otherBall.position.clone().add(otherToInt);
 
+            // step 1: move spheres apart
+            this.position.copy(intersect.clone().add(diff_norm.clone().multiplyScalar(this.radius)));
+            otherBall.position.copy(intersect.clone().sub(diff_norm.clone().multiplyScalar(otherBall.radius)));
+            
             // const u1 = neg_diff_norm.dot(this.velocity);
             const u1 = diff_norm.dot(this.velocity);
             const u2 = diff_norm.dot(otherBall.velocity);
