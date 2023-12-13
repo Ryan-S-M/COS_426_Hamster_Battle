@@ -8,6 +8,7 @@ class SeedScene extends Scene {
         // Call parent Scene() constructor
         super();
 
+        // this.camera = camera;
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
@@ -97,8 +98,10 @@ class SeedScene extends Scene {
         }    
         // console.log("scene position: ", this.position);
         // console.log("player position: ", this.player.position);
-        // this.position.x = this.player.position.x;
-        // this.position.z = this.player.position.z;    
+        // this.position.x = -this.player.position.x;
+        // this.position.z = -this.player.position.z;    
+        // this.camera.position.set(this.player.position.clone().add(new Vector3(0, 5, -8)));
+        // this.camera.lookAt(this.camera.position);
     }
 }
 

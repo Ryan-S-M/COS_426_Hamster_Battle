@@ -12,8 +12,8 @@ import { SeedScene } from 'scenes';
 import * as handlers from './components/handlers.js';
 
 // Initialize core ThreeJS components
-const scene = new SeedScene();
 const camera = new PerspectiveCamera();
+const scene = new SeedScene();
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
@@ -29,19 +29,27 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // Set up controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.minDistance = 4;
-controls.maxDistance = 16;
-controls.update();
+// const controls = new OrbitControls(camera, canvas);
+// controls.enableDamping = true;
+// controls.enablePan = false;
+// controls.minDistance = 4;
+// controls.maxDistance = 16;
+// controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    controls.update();
+    // controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
+
+    // testing
+    // camera.lookAt(scene.player.position);
+    const offset = scene.player.direction.clone().multiplyScalar(-8).add(new Vector3(0, 5, 0));
+    // camera.position.copy(scene.player.position.clone().add(new Vector3(0, 5, -8)))
+    camera.position.copy(scene.player.position.clone().add(offset));
+    camera.lookAt(scene.player.position);
+
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
 
