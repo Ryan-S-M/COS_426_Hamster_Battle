@@ -80,6 +80,9 @@ class HamsterSphere extends Group {
         // console.log("about to integrate");
         this.verletIntegrate(deltaT);
         this.prevTime = timeStamp;
+        // this.turnLeft();
+        // this.turnRight();
+        this.goForward();
     }
 
     // otherBall is a HamsterSphere object
@@ -269,12 +272,31 @@ class HamsterSphere extends Group {
 
     // turn left
     turnLeft() {
+        // THETA determines rotation speed
+        const THETA = 0.03;
+        const euler = new Euler(0, THETA, 0);
+        const axis = new Vector3(0, 1, 0);
+        this.direction.applyEuler(euler);
+        this.hamster.rotateOnAxis(axis, THETA);
+
+        // debugging only
 
     }
 
     // turn right
     turnRight() {
+        const THETA = -0.03;
+        const euler = new Euler(0, THETA, 0);
+        const axis = new Vector3(0, 1, 0);
+        this.direction.applyEuler(euler);
+        this.hamster.rotateOnAxis(axis, THETA);
 
+        // debugging
+        // this.velocity = this.direction;
+    }
+    // apply forward force
+    goForward() {
+        this.addForce(this.direction);
     }
 
 
@@ -302,10 +324,10 @@ class HamsterSphere extends Group {
         let theta = Math.acos(original.dot(v));
 
         const cross = original.clone().cross(v);
-        console.log("cross: ", cross);
+        // console.log("cross: ", cross);
         if (cross.y < 0) {
             theta = - theta;
-            console.log("negating");
+            // console.log("negating");
         }
         // console.log("dot product: ", original.dot(v));
         this.hamster.setRotationFromEuler(new Euler(0, theta, 0));

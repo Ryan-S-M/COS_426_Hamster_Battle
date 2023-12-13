@@ -27,19 +27,19 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        const playerSphere = new HamsterSphere(this, 2, 0, 0, 0, 1);
         // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(3, 3, 0));
-        playerSphere.setVel(new Vector3(0.25, 0, 0.63));
-        playerSphere.setDirection(new Vector3(0.25, 0, 0.63));
+        playerSphere.setVel(new Vector3(-1, 0, 0));
+        playerSphere.setDirection(new Vector3(1, 0, 0));
 
-        const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        const anotherSphere = new HamsterSphere(this, 1.5, 0, 0, 0, 1);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
         const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
         sphere2.changePos(new Vector3(0, 3, 3));
         sphere2.setVel(new Vector3(0, 0, 0));
-        const sphere3 = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        const sphere3 = new HamsterSphere(this, 1, 0, 0, 0, 5);
         sphere3.changePos(new Vector3(0, 3, -3));
         sphere3.setVel(new Vector3(0, 0, 0));
         this.add(lights, box, playerSphere, anotherSphere, sphere2, sphere3);
