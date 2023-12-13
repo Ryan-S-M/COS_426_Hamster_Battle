@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
-import { Flower, Land, Cube, Box} from 'objects';
+import { Scene, Color, Vector3 } from 'three';
+import { Hamster, Land, Cube, Flower, Box, HamsterSphere} from 'objects';
 import { BasicLights } from 'lights';
 
 class SeedScene extends Scene {
@@ -13,6 +13,7 @@ class SeedScene extends Scene {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 1,
             updateList: [],
+            sphereList: [],
         };
 
         // Set background to a nice color
@@ -20,12 +21,31 @@ class SeedScene extends Scene {
         // this.background = new Color(0xff0000);
 
         // Add meshes to scene
-        // const land = new Land();
-        // const flower = new Flower(this);
+        //const land = new Land();
+        //const flower = new Flower(this);
         const lights = new BasicLights();
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
-        this.add(lights, box);
+        this.box = box;
+        const playerSphere = new HamsterSphere(this, 2, 0, 0, 0, 5);
+        // playerSphere.changePos(new Vector3(3, 3, 3));
+        playerSphere.changePos(new Vector3(6, 6, 0));
+        playerSphere.setVel(new Vector3(0, 2, 0));
+
+        const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        anotherSphere.changePos(new Vector3(3, 2.5, -7));
+        anotherSphere.setVel(new Vector3(0, 0, 0));
+        this.add(lights, box, playerSphere, anotherSphere);
+        // this.add(lights, box, playerSphere)
+        // testing
+        const box2 = new Box(this, 2, 1, 2);
+        // // box2.position.sub(new Vector3(1, 0, 0));
+        box2.updatePos(-2, 0, 0);
+        this.box2 = box2;
+        this.add(box2);
+        const player_hamster = new Hamster();
+        this.add(player_hamster);
+    
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -35,8 +55,12 @@ class SeedScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    addToSphereList(object) {
+        this.state.sphereList.push(object);
+    }
+
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
+        const { rotationSpeed, updateList, sphereList } = this.state;
         // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
         
         // make scene move up instead of rotation
@@ -48,6 +72,21 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        // collide spheres with box
+        for (const sphere of sphereList) {
+            sphere.handleBoxCollision(this.box);
+            sphere.handleBoxCollision(this.box2);
+        }
+
+        // collide spheres with each other
+        for (let i = 0; i < sphereList.length; i++) {
+            for (let j = i + 1; j < sphereList.length; j++) {
+                sphereList[i].collideBall(sphereList[j]);
+            }
+        }
+
+
     }
 }
 

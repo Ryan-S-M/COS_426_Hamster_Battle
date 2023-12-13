@@ -1,0 +1,1 @@
+export { default as Hamster } from './Hamster.js';
