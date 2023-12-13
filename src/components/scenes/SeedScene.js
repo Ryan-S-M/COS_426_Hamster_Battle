@@ -27,14 +27,14 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 2, 0, 0, 0, 1);
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // playerSphere.changePos(new Vector3(3, 3, 3));
-        playerSphere.changePos(new Vector3(3, 3, 0));
-        playerSphere.setVel(new Vector3(-1, 0, 0));
-        playerSphere.setDirection(new Vector3(1, 0, 0));
-
+        playerSphere.changePos(new Vector3(0, 3, 0));
+        playerSphere.setVel(new Vector3(0, 0, 0));
+        playerSphere.setDirection(new Vector3(0, 0, 1));
 
         this.player = playerSphere;
+        this.player.setPower(3);
 
         const anotherSphere = new HamsterSphere(this, 1.5, 0, 0, 0, 1);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
@@ -94,9 +94,11 @@ class SeedScene extends Scene {
             for (let j = i + 1; j < sphereList.length; j++) {
                 sphereList[i].collideBall(sphereList[j]);
             }
-        }
-
-
+        }    
+        // console.log("scene position: ", this.position);
+        // console.log("player position: ", this.player.position);
+        // this.position.x = this.player.position.x;
+        // this.position.z = this.player.position.z;    
     }
 }
 
