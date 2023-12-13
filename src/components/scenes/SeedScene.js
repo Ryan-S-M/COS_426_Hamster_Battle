@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
-import { Hamster, Land, Cube, Flower, Box} from 'objects';
+import { Scene, Color, Vector3 } from 'three';
+import { Hamster, Land, Cube, Flower, Box, HamsterSphere} from 'objects';
 import { BasicLights } from 'lights';
 
 class SeedScene extends Scene {
@@ -13,6 +13,7 @@ class SeedScene extends Scene {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 1,
             updateList: [],
+            sphereList: [],
         };
 
         // Set background to a nice color
@@ -54,8 +55,12 @@ class SeedScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    addToSphereList(object) {
+        this.state.sphereList.push(object);
+    }
+
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
+        const { rotationSpeed, updateList, sphereList } = this.state;
         // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
         
         // make scene move up instead of rotation
@@ -67,6 +72,21 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        // collide spheres with box
+        for (const sphere of sphereList) {
+            sphere.handleBoxCollision(this.box);
+            sphere.handleBoxCollision(this.box2);
+        }
+
+        // collide spheres with each other
+        for (let i = 0; i < sphereList.length; i++) {
+            for (let j = i + 1; j < sphereList.length; j++) {
+                sphereList[i].collideBall(sphereList[j]);
+            }
+        }
+
+
     }
 }
 
