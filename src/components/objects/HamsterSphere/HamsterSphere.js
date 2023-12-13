@@ -1,4 +1,5 @@
 import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3, Box3} from 'three';
+import {Hamster} from '../Hamster';
 
 class HamsterSphere extends Group {
 
@@ -27,6 +28,10 @@ class HamsterSphere extends Group {
         
         // const cubeA = new THREE.Mesh( geometry, material );
         this.add(new Mesh(geometry, material));
+
+        this.hamster = new Hamster(0.4, 0, 0, 0.1);
+        this.add(this.hamster);
+        // this.hamster.model.position.multiplyScalar(0);
 
         parent.addToUpdateList(this);
         parent.addToSphereList(this);
@@ -251,8 +256,8 @@ class HamsterSphere extends Group {
 
 
          // update velocity term
-         console.log("acceleration: ", a);
-         console.log("velocity: ", this.velocity);
+        //  console.log("acceleration: ", a);
+        //  console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
 
         //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {

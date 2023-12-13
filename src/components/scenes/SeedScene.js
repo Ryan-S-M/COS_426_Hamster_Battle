@@ -30,11 +30,11 @@ class SeedScene extends Scene {
         const playerSphere = new HamsterSphere(this, 2, 0, 0, 0, 5);
         // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(6, 6, 0));
-        playerSphere.setVel(new Vector3(0, 2, 0));
+        playerSphere.setVel(new Vector3(-1, 2, 0));
 
         const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
         anotherSphere.changePos(new Vector3(3, 2.5, -7));
-        anotherSphere.setVel(new Vector3(0, 0, 0));
+        anotherSphere.setVel(new Vector3(0, 0, 1));
         this.add(lights, box, playerSphere, anotherSphere);
         // this.add(lights, box, playerSphere)
         // testing
@@ -43,8 +43,8 @@ class SeedScene extends Scene {
         box2.updatePos(-2, 0, 0);
         this.box2 = box2;
         this.add(box2);
-        const player_hamster = new Hamster();
-        this.add(player_hamster);
+        // const player_hamster = new Hamster(0.4, 0, 0.8, 0);
+        // this.add(player_hamster);
     
 
         // Populate GUI
