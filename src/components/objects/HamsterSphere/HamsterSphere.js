@@ -13,6 +13,7 @@ class HamsterSphere extends Group {
         this.mass = mass;
         this.position.set(x, y, z);
         this.direction = new Vector3(0, 0, -1);
+        this.power = 1;
 
         this.netForce = new Vector3();
         this.lastNetForce = new Vector3();
@@ -79,6 +80,7 @@ class HamsterSphere extends Group {
         // this.verletIntegrate((timeStamp - this.prevTime) / 500.0);
         // console.log("about to integrate");
         this.verletIntegrate(deltaT);
+        this.applyFriction();
         this.prevTime = timeStamp;
         // this.turnLeft();
         // this.turnRight();
@@ -124,6 +126,10 @@ class HamsterSphere extends Group {
             // otherBall.velocity.add(neg_diff_norm.clone().multiplyScalar(v2));
             otherBall.velocity.add(diff_norm.clone().multiplyScalar(v2));
         }
+    }
+
+    applyFriction() {
+        this.addForce(this.velocity.clone().multiplyScalar(- 0.5 * this.mass))
     }
 
     // adapted from A5
@@ -273,7 +279,7 @@ class HamsterSphere extends Group {
     // turn left
     turnLeft() {
         // THETA determines rotation speed
-        const THETA = 0.03;
+        const THETA = 0.15;
         const euler = new Euler(0, THETA, 0);
         const axis = new Vector3(0, 1, 0);
         this.direction.applyEuler(euler);
@@ -285,7 +291,7 @@ class HamsterSphere extends Group {
 
     // turn right
     turnRight() {
-        const THETA = -0.03;
+        const THETA = -0.15;
         const euler = new Euler(0, THETA, 0);
         const axis = new Vector3(0, 1, 0);
         this.direction.applyEuler(euler);
@@ -296,8 +302,12 @@ class HamsterSphere extends Group {
     }
     // apply forward force
     goForward() {
-        this.addForce(this.direction);
+        this.addForce(this.direction.clone().multiplyScalar(this.power));
     }
+
+    // goBackward() {
+    //     this.addForce(this.direction.clone().multiplyScalar(- this.power));
+    // }
 
 
     // add force
@@ -331,6 +341,9 @@ class HamsterSphere extends Group {
         }
         // console.log("dot product: ", original.dot(v));
         this.hamster.setRotationFromEuler(new Euler(0, theta, 0));
+    }
+    setPower(num) {
+        this.power = num;
     }
 
 
