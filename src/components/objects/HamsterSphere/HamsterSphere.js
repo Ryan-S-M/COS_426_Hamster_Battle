@@ -31,7 +31,7 @@ class HamsterSphere extends Group {
         // const cubeA = new THREE.Mesh( geometry, material );
         this.add(new Mesh(geometry, material));
 
-        this.hamster = new Hamster(0.4, 0, 0, 0.1);
+        this.hamster = new Hamster(parent, 0.4, 0, 0, 0.1);
         this.add(this.hamster);
         // this.hamster.model.position.multiplyScalar(0);
 
