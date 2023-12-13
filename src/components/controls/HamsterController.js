@@ -1,6 +1,6 @@
-import HamsterSphere from 'objects';
-import Vector3 from 'three';
-import SeedScene from '../scenes/SeedScene';
+import {HamsterSphere} from 'objects';
+import {Vector3} from 'three';
+import {SeedScene} from '../scenes/SeedScene';
 
 class HamsterController {
     /**
