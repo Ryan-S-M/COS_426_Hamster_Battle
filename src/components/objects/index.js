@@ -3,3 +3,4 @@ export * from './Land';
 export * from './Cube';
 export * from './Box';
 export * from './HamsterSphere'
+export * from './Hamster';
