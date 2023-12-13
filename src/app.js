@@ -49,6 +49,9 @@ const onAnimationFrameHandler = (timeStamp) => {
     // camera.position.copy(scene.player.position.clone().add(new Vector3(0, 5, -8)))
     camera.position.copy(scene.player.position.clone().add(offset));
     camera.lookAt(scene.player.position);
+    if (camera.position.y < -10) {
+        alert("you lost :(");
+    }
 
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
