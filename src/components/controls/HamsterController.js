@@ -1,4 +1,4 @@
-import { Box, HamsterSphere } from 'objects';
+import HamsterSphere from 'objects';
 import Vector3 from 'three';
 import SeedScene from '../scenes/SeedScene';
 
@@ -9,15 +9,14 @@ class HamsterController {
      * @param {number} difficulty
      * @param {!SeedScene} scene
      */
-    constructor(playerSphere, NPCSpheres, difficulty, scene) {
+    constructor(playerSphere, NPCSpheres, difficulty, box) {
         this.playerSphere = playerSphere;
         this.NPCSpheres = NPCSpheres;
         this.difficulty = difficulty;
-        this.scene = scene;
         let box_params = {
-            l: scene.box.geometry.parameters.depth,
-            w: scene.box.geometry.parameters.width,
-            h: scene.box.geometry.parameters.height
+            l: box.geometry.parameters.depth,
+            w: box.geometry.parameters.width,
+            h: box.geometry.parameters.height
         };
         this.boundaries = {
             x_min: -box_params.w / 2,
