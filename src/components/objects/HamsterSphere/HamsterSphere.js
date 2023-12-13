@@ -1,4 +1,4 @@
-import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3, Box3} from 'three';
+import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3, Box3, Euler} from 'three';
 import {Hamster} from '../Hamster';
 
 class HamsterSphere extends Group {
@@ -12,6 +12,7 @@ class HamsterSphere extends Group {
         this.radius = radius;
         this.mass = mass;
         this.position.set(x, y, z);
+        this.direction = new Vector3(0, 0, -1);
 
         this.netForce = new Vector3();
         this.lastNetForce = new Vector3();
@@ -266,6 +267,17 @@ class HamsterSphere extends Group {
 
     }
 
+    // turn left
+    turnLeft() {
+
+    }
+
+    // turn right
+    turnRight() {
+
+    }
+
+
     // add force
     addForce(force) {
         this.netForce.add(force);
@@ -279,6 +291,24 @@ class HamsterSphere extends Group {
     // also for debugging / testing
     setVel(vec) {
         this.velocity.copy(vec);
+    }
+
+    // all for debugging / testing
+    setDirection(vec) {
+        const v = vec.clone().normalize();
+        const original = new Vector3(0, 0, -1);
+        // const axis = new Vector3(0, -1, 0);
+        this.direction.copy(v);
+        let theta = Math.acos(original.dot(v));
+
+        const cross = original.clone().cross(v);
+        console.log("cross: ", cross);
+        if (cross.y < 0) {
+            theta = - theta;
+            console.log("negating");
+        }
+        // console.log("dot product: ", original.dot(v));
+        this.hamster.setRotationFromEuler(new Euler(0, theta, 0));
     }
 
 
