@@ -279,7 +279,7 @@ class HamsterSphere extends Group {
     // turn left
     turnLeft() {
         // THETA determines rotation speed
-        const THETA = 0.15;
+        const THETA = Math.PI / 10.0;
         const euler = new Euler(0, THETA, 0);
         const axis = new Vector3(0, 1, 0);
         this.direction.applyEuler(euler);
@@ -291,7 +291,7 @@ class HamsterSphere extends Group {
 
     // turn right
     turnRight() {
-        const THETA = -0.15;
+        const THETA = -Math.PI / 10.0;
         const euler = new Euler(0, THETA, 0);
         const axis = new Vector3(0, 1, 0);
         this.direction.applyEuler(euler);
