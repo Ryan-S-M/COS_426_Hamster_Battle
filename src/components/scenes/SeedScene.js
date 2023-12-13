@@ -33,6 +33,9 @@ class SeedScene extends Scene {
         playerSphere.setVel(new Vector3(-1, 0, 0));
         playerSphere.setDirection(new Vector3(1, 0, 0));
 
+
+        this.player = playerSphere;
+
         const anotherSphere = new HamsterSphere(this, 1.5, 0, 0, 0, 1);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
