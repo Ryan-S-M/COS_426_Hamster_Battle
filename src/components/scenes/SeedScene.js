@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, Vector3 } from 'three';
 import { Hamster, Land, Cube, Flower, Box, HamsterSphere} from 'objects';
 import { BasicLights } from 'lights';
+import { HamsterController } from '../controls';
 
 class SeedScene extends Scene {
     constructor() {
@@ -46,6 +47,15 @@ class SeedScene extends Scene {
         sphere3.changePos(new Vector3(0, 3, -3));
         sphere3.setVel(new Vector3(0, 0, 0));
         this.add(lights, box, playerSphere, anotherSphere, sphere2, sphere3);
+
+        let NPCSpheres = []
+        for (let sphere of this.state.sphereList) {
+            if (sphere != playerSphere) {
+                NPCSpheres.push(sphere);
+            }
+        }
+
+        this.controller = new HamsterController(playerSphere, NPCSpheres, this.box);
         // this.add(lights, box, playerSphere)
         // testing
         // const box2 = new Box(this, 2, 1, 2);
@@ -94,7 +104,19 @@ class SeedScene extends Scene {
             for (let j = i + 1; j < sphereList.length; j++) {
                 sphereList[i].collideBall(sphereList[j]);
             }
-        }    
+        }
+
+        for (let i = 0; i < this.controller.NPCSpheres.length; i++) {
+            let sphere = this.controller.NPCSpheres[i];
+            let dir = this.controller.getDirection(sphere);
+            if (dir == "left") {
+                sphere.turnLeft();
+            } else if (dir == "right") {
+                sphere.turnRight();
+            } else if (dir == "forward") {
+                sphere.goForward();
+            }
+        }
         // console.log("scene position: ", this.position);
         // console.log("player position: ", this.player.position);
         // this.position.x = this.player.position.x;

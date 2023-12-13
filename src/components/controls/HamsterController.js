@@ -9,10 +9,9 @@ class HamsterController {
      * @param {number} difficulty
      * @param {!SeedScene} scene
      */
-    constructor(playerSphere, NPCSpheres, difficulty, box) {
+    constructor(playerSphere, NPCSpheres, box) {
         this.playerSphere = playerSphere;
         this.NPCSpheres = NPCSpheres;
-        this.difficulty = difficulty;
         let box_params = {
             l: box.geometry.parameters.depth,
             w: box.geometry.parameters.width,
