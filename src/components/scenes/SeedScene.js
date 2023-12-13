@@ -29,26 +29,26 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2);
         // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(0, 3, 0));
         playerSphere.setVel(new Vector3(0, 0, 0));
         playerSphere.setDirection(new Vector3(0, 0, 1));
 
         this.player = playerSphere;
-        this.player.setPower(3);
+        this.player.setPower(10);
 
-        const anotherSphere = new HamsterSphere(this, 1.5, 0, 0, 0, 1);
+        const anotherSphere = new HamsterSphere(this, 1.25, 0, 0, 0, 1);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
-        const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
-        sphere2.changePos(new Vector3(0, 3, 3));
-        sphere2.setVel(new Vector3(0, 0, 0));
-        const sphere3 = new HamsterSphere(this, 1, 0, 0, 0, 5);
-        sphere3.changePos(new Vector3(0, 3, -3));
-        sphere3.setVel(new Vector3(0, 0, 0));
-        this.add(lights, box, playerSphere, anotherSphere, sphere2, sphere3);
-
+        // const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
+        // sphere2.changePos(new Vector3(0, 3, 3));
+        // sphere2.setVel(new Vector3(0, 0, 0));
+        // const sphere3 = new HamsterSphere(this, 1, 0, 0, 0, 5);
+        // sphere3.changePos(new Vector3(0, 3, -3));
+        // sphere3.setVel(new Vector3(0, 0, 0));
+        // this.add(lights, box, playerSphere, anotherSphere, sphere2, sphere3);
+        this.add(lights, box, playerSphere, anotherSphere);
         let NPCSpheres = []
         for (let sphere of this.state.sphereList) {
             if (sphere != playerSphere) {
@@ -100,12 +100,6 @@ class SeedScene extends Scene {
             // sphere.handleBoxCollision(this.box2);
         }
 
-        // collide spheres with each other
-        for (let i = 0; i < sphereList.length; i++) {
-            for (let j = i + 1; j < sphereList.length; j++) {
-                sphereList[i].collideBall(sphereList[j]);
-            }
-        }
 
         for (let i = 0; i < this.controller.NPCSpheres.length; i++) {
             let sphere = this.controller.NPCSpheres[i];
@@ -118,6 +112,16 @@ class SeedScene extends Scene {
                 sphere.goForward();
             }
         }
+
+
+        // collide spheres with each other
+        for (let i = 0; i < sphereList.length; i++) {
+            for (let j = i + 1; j < sphereList.length; j++) {
+                sphereList[i].collideBall(sphereList[j]);
+            }
+        }
+
+        
         // console.log("scene position: ", this.position);
         // console.log("player position: ", this.player.position);
         // this.position.x = -this.player.position.x;

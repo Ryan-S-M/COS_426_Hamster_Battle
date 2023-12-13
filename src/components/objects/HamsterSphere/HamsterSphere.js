@@ -109,14 +109,14 @@ class HamsterSphere extends Group {
 
             const m1 = this.mass;
             const m2 = otherBall.mass;
-            console.log("m1", m1);
-            console.log("m2", m2);
-            console.log("u1, ", u1);
-            console.log("u2, ", u2);
+            // console.log("m1", m1);
+            // console.log("m2", m2);
+            // console.log("u1, ", u1);
+            // console.log("u2, ", u2);
             const v1 = (m1 - m2) / (m1 + m2) * u1 + 2 * m2 / (m1 + m2) * u2;
             const v2 = 2 * m1 / (m1 + m2) * u1 + (m2 - m1) / (m1 + m2) * u2;
-            console.log("v1, ", v1);
-            console.log("v2, ", v2);
+            // console.log("v1, ", v1);
+            // console.log("v2, ", v2);
 
             // this.velocity.sub(neg_diff_norm.clone().multiplyScalar(u1));
             this.velocity.sub(diff_norm.clone().multiplyScalar(u1));

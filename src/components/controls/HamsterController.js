@@ -30,7 +30,7 @@ class HamsterController {
      * @param {HamsterSphere} hs 
      */
     getDirection(hs) {
-        if (hs.index == this.playerSphere.index) {
+        if (hs == this.playerSphere) {
             return null;
         }
 
