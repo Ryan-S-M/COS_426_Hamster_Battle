@@ -1,4 +1,5 @@
-import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3, Box3} from 'three';
+import { Group, SphereGeometry, Mesh, MeshPhongMaterial, Vector3, Box3, Euler} from 'three';
+import {Hamster} from '../Hamster';
 
 class HamsterSphere extends Group {
 
@@ -11,6 +12,7 @@ class HamsterSphere extends Group {
         this.radius = radius;
         this.mass = mass;
         this.position.set(x, y, z);
+        this.direction = new Vector3(0, 0, -1);
 
         this.netForce = new Vector3();
         this.lastNetForce = new Vector3();
@@ -27,6 +29,10 @@ class HamsterSphere extends Group {
         
         // const cubeA = new THREE.Mesh( geometry, material );
         this.add(new Mesh(geometry, material));
+
+        this.hamster = new Hamster(0.4, 0, 0, 0.1);
+        this.add(this.hamster);
+        // this.hamster.model.position.multiplyScalar(0);
 
         parent.addToUpdateList(this);
         parent.addToSphereList(this);
@@ -74,6 +80,9 @@ class HamsterSphere extends Group {
         // console.log("about to integrate");
         this.verletIntegrate(deltaT);
         this.prevTime = timeStamp;
+        // this.turnLeft();
+        // this.turnRight();
+        this.goForward();
     }
 
     // otherBall is a HamsterSphere object
@@ -251,8 +260,8 @@ class HamsterSphere extends Group {
 
 
          // update velocity term
-         console.log("acceleration: ", a);
-         console.log("velocity: ", this.velocity);
+        //  console.log("acceleration: ", a);
+        //  console.log("velocity: ", this.velocity);
          this.velocity.add(a.multiplyScalar(deltaT));
 
         //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {
@@ -260,6 +269,36 @@ class HamsterSphere extends Group {
         //  }
 
     }
+
+    // turn left
+    turnLeft() {
+        // THETA determines rotation speed
+        const THETA = 0.03;
+        const euler = new Euler(0, THETA, 0);
+        const axis = new Vector3(0, 1, 0);
+        this.direction.applyEuler(euler);
+        this.hamster.rotateOnAxis(axis, THETA);
+
+        // debugging only
+
+    }
+
+    // turn right
+    turnRight() {
+        const THETA = -0.03;
+        const euler = new Euler(0, THETA, 0);
+        const axis = new Vector3(0, 1, 0);
+        this.direction.applyEuler(euler);
+        this.hamster.rotateOnAxis(axis, THETA);
+
+        // debugging
+        // this.velocity = this.direction;
+    }
+    // apply forward force
+    goForward() {
+        this.addForce(this.direction);
+    }
+
 
     // add force
     addForce(force) {
@@ -274,6 +313,24 @@ class HamsterSphere extends Group {
     // also for debugging / testing
     setVel(vec) {
         this.velocity.copy(vec);
+    }
+
+    // all for debugging / testing
+    setDirection(vec) {
+        const v = vec.clone().normalize();
+        const original = new Vector3(0, 0, -1);
+        // const axis = new Vector3(0, -1, 0);
+        this.direction.copy(v);
+        let theta = Math.acos(original.dot(v));
+
+        const cross = original.clone().cross(v);
+        // console.log("cross: ", cross);
+        if (cross.y < 0) {
+            theta = - theta;
+            // console.log("negating");
+        }
+        // console.log("dot product: ", original.dot(v));
+        this.hamster.setRotationFromEuler(new Euler(0, theta, 0));
     }
 
 
