@@ -9,7 +9,7 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
-import * as handlers from 'handlers.js';
+import * as handlers from './components/handlers.js';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
@@ -54,3 +54,5 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+window.addEventListener('keydown', event => handlers.handleKeyDown(event, scene), false);
+

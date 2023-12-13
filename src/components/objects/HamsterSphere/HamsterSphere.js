@@ -82,7 +82,7 @@ class HamsterSphere extends Group {
         this.prevTime = timeStamp;
         // this.turnLeft();
         // this.turnRight();
-        this.goForward();
+        // this.goForward();
     }
 
     // otherBall is a HamsterSphere object
