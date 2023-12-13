@@ -42,7 +42,7 @@ class SeedScene extends Scene {
         box2.updatePos(-2, 0, 0);
         this.box2 = box2;
         this.add(box2);
-        const player_hamster = new Hamster();
+        const player_hamster = new Hamster(this);
         this.add(player_hamster);
     
 
