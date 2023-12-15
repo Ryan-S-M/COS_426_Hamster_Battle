@@ -156,20 +156,12 @@ class SeedScene extends Scene {
     
     reset() {
         this.state.rotationSpeed = 1;
-        this.state.updateList = [];
-        this.state.sphereList = [];
-        
-        this.state.updateList.push(this.player);
-        this.state.sphereList.push(this.player);
 
         this.player.changePos(new Vector3(0, 3, 0));
         this.player.setVel(new Vector3(0, 0, 0));
         this.player.setDirection(new Vector3(0, 0, 1));
         this.player.setPower(10);
-
-        for (const anim of this.player.hamster.state.animations) {
-            anim.play();
-        }
+        console.log(this.player.hamster.state.animations)
     }
 }
 

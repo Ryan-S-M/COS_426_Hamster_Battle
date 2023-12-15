@@ -81,7 +81,6 @@ const onAnimationFrameHandler = (timeStamp) => {
         playScene.numNPCSpawn = 1;
         playScene.NPCWeight = 0.5;
         playScene.NPCPower = 1;
-        console.log("leveling resetting to: ", playScene.level);
     }
 
 };

@@ -6,7 +6,7 @@ class StartScene extends Scene {
     constructor() {
         super();
         const loader = new FontLoader();
-        this.background = new Color(0x1ec9ee);
+        this.background = new Color(0xaababf);
         loader.load('fonts/helvetiker_regular.typeface.json', function (font) {
 
             const geometry = new TextGeometry( 'Hello three.js!', {
