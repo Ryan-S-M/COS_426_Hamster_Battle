@@ -53,21 +53,14 @@ class HamsterController {
             hs.NPCNumFrames += 1;
             if (hs.NPCNumFrames >= 200) {
                 // get new random position
-                // console.log("random: ", Math.random());
                 if (hs.NPCRandomness > Math.random()) {
                     hs.NPCTarget = new Vector3(
                         (x_min + Math.random() * (x_max - x_min)) * 0.75,
                         hs.position.y,
                         (z_min + Math.random() * (z_max - z_min)) * 0.75);
-                    // console.log("new target after not having one: ", hs.NPCTarget);
-                    // console.log("x_min: ", x_min);
-                    // console.log("x_max: ", x_max);
-                    // console.log("z_min: ", z_min);
-                    // console.log("z_max: ", z_max);
                 }
                 else {
                     hs.NPCNumFrames = 0;
-                    // console.log("NPC aiming towards player");
                 }
             }
         }
@@ -75,19 +68,14 @@ class HamsterController {
             if (hs.NPCRandomness < Math.random()) {
                 hs.NPCTarget = null;
                 hs.NPCNumFrames = 0;
-                // console.log("NPC aiming at player");
             }
             else {
                 hs.NPCTarget = new Vector3(
                     (x_min + Math.random() * (x_max - x_min)) * 0.75,
                     hs.position.y,
                     (z_min + Math.random() * (z_max - z_min)) * 0.75);
-                // console.log("new target after having one", hs.NPCTarget);
             }
         } 
-        // else {
-        //     console.log("distance to target point: ", hs.position.clone().sub(hs.NPCTarget))
-        // }
 
         // new goal: point on the player sphere opposite the closest corner
         let aimTowards;
@@ -129,24 +117,16 @@ class HamsterController {
             }
             else {
                 aimTowards = new Vector3(0, hs.position.y, 0);
-                // console.log("aiming towards center");
             }
         }
-        // console.log("aimTowards: ", aimTowards);
 
-
-
-
-        // let vec_btw_centers = this.playerSphere.position.clone().sub(hs.position);
         let vec_btw_centers = aimTowards.clone().sub(hs.position);
         let best_direction = new Vector3(vec_btw_centers.x, 0, vec_btw_centers.z);
         let angle = hs.direction.angleTo(best_direction);
         // take cross product to determine direction
         let crossValY = hs.direction.clone().cross(vec_btw_centers).y;
-        // console.log("crossValY: ", crossValY);
 
         
-        // console.log("angle: ", angle);
 
         let best_choice;
         if (near_edge) {
@@ -154,7 +134,6 @@ class HamsterController {
                 best_choice = "left";
             } else {
                 best_choice = "right";
-                // console.log("best direction is right")
             }
         }
         if (Math.abs(angle) < Math.PI / 6) {

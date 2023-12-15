@@ -90,25 +90,14 @@ class SeedScene extends Scene {
                 sphere.goForward();
             }
             if (sphere.position.y < -10) {
-                // console.log("about to despawn a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
                 this.controller.NPCSpheres.splice(i, 1);
                 const sphereIndex = sphereList.indexOf(sphere);
                 sphereList.splice(sphereIndex, 1);
                 this.remove(sphere);
                 sphere.geometry.dispose();
                 sphere.material.dispose();
-                // console.log("despawned a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
-                // console.log("total number of spheres is ", sphereList.length);
-                
                 // make the game harder
                 this.level += 1;
-                // console.log("leveling up to: ", this.level);
-                
-                // console.log("NPC number spawn: ", this.numNPCSpawn);
-                // console.log("NPC weight: ", this.NPCWeight);
-                // console.log("NPc Power: ", this.NPCPower);
-                // console.log("NPC randomness: ", this.NPCRandomness)
-
             }
         }
 
@@ -120,11 +109,10 @@ class SeedScene extends Scene {
                 this.NPCPower *= 1.5;
                 this.NPCRandomness *= 0.8;
                 this.NPCRadius *= 1.1;
-                // get red component
+                // get new color
                 const rColor = this.NPCColor >>> 16;
                 const bgColor = this.NPCColor & 0xffff;
                 this.NPCColor = (bgColor << 8) + rColor;
-                // console.log("color: ", this.NPCColor.toString(16));
             }
 
             const maxX = this.box.geometry.parameters.width / 3;
@@ -173,9 +161,6 @@ class SeedScene extends Scene {
         this.player.setVel(new Vector3(0, 0, 0));
         this.player.setDirection(new Vector3(0, 0, 1));
         this.player.setPower(50);
-        // console.log(this.player.hamster.state.animations)
-        // console.log("done resetting");
-        // console.log("level: ", this.level);
     }
 }
 
