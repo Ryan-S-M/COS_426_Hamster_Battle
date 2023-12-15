@@ -42,15 +42,12 @@ document.body.appendChild(canvas);
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     // controls.update();
-    if (state == 0) {
+    if (state == 0 || state == 2) {
         renderer.render(startScene, camera);
     } else if (state == 1) {
         renderer.render(playScene, camera);
         playScene.update && playScene.update(timeStamp);
-    } else if (state == 2) {
-        renderer.render(startScene, camera);
-        //renderer.render(restart_page, camera);
-    }
+    } 
      
     window.requestAnimationFrame(onAnimationFrameHandler);
 
@@ -62,6 +59,11 @@ const onAnimationFrameHandler = (timeStamp) => {
     camera.lookAt(playScene.player.position);
     if (camera.position.y < -10) {
         state = 2;
+        
+        let restart = document.getElementsByClassName("restart");
+        for (const elem of restart) {
+            elem.hidden = false;
+        }
         
         //console.log("about to despawn a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
         let sphereList = playScene.state.sphereList;
@@ -123,6 +125,11 @@ function handleKeyDown(event, scene) {
         } else if (state == 2) {
             playScene.reset();
             state = 1
+        }
+        
+        let instructions = document.getElementsByClassName("instructions");
+        for (const elem of instructions) {
+            elem.hidden = true;
         }
     }
 }
