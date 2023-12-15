@@ -1,5 +1,7 @@
-# COS 426 Final Project Template
+# COS 426 Final Project: Hamster Battle
 This skeleton project will help you get started with a ThreeJS project and provide a strong foundation for extension. It sets up a simple scene, camera, and renderer in a modern JavaScript environment, and is written using some common best-practices that you may want to draw from.
+
+Demo video: [Link to Google Drive](https://drive.google.com/file/d/1DS4l5MElb7InhGqHYxQFrgAKJYsA-fm5/view?usp=sharing).
 
 To see it running live on the web, check out the [Online Demo](https://adamfinkelstein.github.io/cos426finalproject/)
 
