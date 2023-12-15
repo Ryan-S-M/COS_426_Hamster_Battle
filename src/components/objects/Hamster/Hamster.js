@@ -1,6 +1,5 @@
 import { Group, Vector3, AnimationMixer } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './hamster.glb';
 
 class Hamster extends Group {
@@ -13,8 +12,11 @@ class Hamster extends Group {
         this.name = 'hamster';
         this.state = {
             run: true,
-            mixer: null
+            mixer: null,
+            animations: [],
+            moving: 0
         }
+        this.prevTime = 0;
 
         loader.load(MODEL, (gltf) => {
             const model = gltf.scene;
@@ -26,10 +28,10 @@ class Hamster extends Group {
             this.state.mixer = mixer;
             this.add(model);
             
-            console.log(fileAnimations);
             for (const anim of fileAnimations) {
                 let playing = mixer.clipAction(anim);
-                playing.play();
+                this.state.animations.push(playing);
+                playing.play()
             }
         });
         
@@ -37,12 +39,11 @@ class Hamster extends Group {
     }
     
     update(timeStamp) {
-        if (this.state.mixer) {
-            this.state.mixer.update(timeStamp);
+        if (this.state.mixer && this.state.moving < 50) {
+            this.state.mixer.update(timeStamp - this.prevTime);
+            this.state.moving += 1;
         }
-
-        // Advance tween animations, if any exist
-        TWEEN.update();
+        this.prevTime = timeStamp;
     }
 }
 

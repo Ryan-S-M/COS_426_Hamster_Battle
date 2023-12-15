@@ -303,6 +303,11 @@ class HamsterSphere extends Group {
     // apply forward force
     goForward() {
         this.addForce(this.direction.clone().multiplyScalar(this.power));
+        // for loop because 1 animation per leg
+        this.hamster.state.moving = 1;
+        for (const anim of this.hamster.state.animations) {
+          anim.play()
+        } 
     }
 
     // goBackward() {
