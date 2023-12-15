@@ -189,12 +189,24 @@ class SeedScene extends Scene {
         this.NPCRandomness = 1;
         this.NPCColor = 0xff3344;
 
+        const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
+        anotherSphere.changePos(new Vector3(-3, 3, 0));
+        anotherSphere.setVel(new Vector3(0, 0, 0));
+        anotherSphere.setPower(this.NPCPower);
+        anotherSphere.setRandomness(this.NPCRandomness);
+
+        this.controller.NPCSpheres.push(anotherSphere);
+        this.add(anotherSphere);
+
+
 
         this.player.changePos(new Vector3(0, 3, 0));
         this.player.setVel(new Vector3(0, 0, 0));
         this.player.setDirection(new Vector3(0, 0, 1));
         this.player.setPower(50);
         console.log(this.player.hamster.state.animations)
+        console.log("done resetting");
+        console.log("level: ", this.level);
     }
 }
 
