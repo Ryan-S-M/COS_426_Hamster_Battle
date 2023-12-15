@@ -22,6 +22,7 @@ class SeedScene extends Scene {
         this.level = 1;
         this.numNPCSpawn = 1;
         this.NPCWeight = 0.5;
+        this.NPCPower = 1;
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
@@ -34,7 +35,7 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2);
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2, 0xffee44);
         // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(0, 3, 0));
         playerSphere.setVel(new Vector3(0, 0, 0));
@@ -43,9 +44,12 @@ class SeedScene extends Scene {
         this.player = playerSphere;
         this.player.setPower(10);
 
-        const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight);
+        this.NPCColor = 0xff3344;
+
+        const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
+        anotherSphere.setPower(this.NPCPower);
         // const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // sphere2.changePos(new Vector3(0, 3, 3));
         // sphere2.setVel(new Vector3(0, 0, 0));
@@ -119,15 +123,22 @@ class SeedScene extends Scene {
             if (sphere.position.y < -10) {
                 console.log("about to despawn a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
                 this.controller.NPCSpheres.splice(i, 1);
+                const sphereIndex = sphereList.indexOf(sphere);
+                sphereList.splice(sphereIndex, 1);
                 console.log("despawned a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
+                console.log("total number of spheres is ", sphereList.length);
                 this.level += 1;
                 console.log("leveling up to: ", this.level);
                 if (this.level % 3 == 0) {
                     this.numNPCSpawn += 1;
                 }
-                else {
-                    this.NPCWeight += 0.2;
+                else if (this.level % 3 == 1){
+                    this.NPCWeight += 0.5;
                 }
+                else {
+                    this.NPCPower += 0.5;
+                }
+
             }
         }
 
@@ -140,11 +151,12 @@ class SeedScene extends Scene {
 
 
             for (let k = 1; k <= this.numNPCSpawn; k++) {
-                const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight);
+                const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor);
                 const xCoord = Math.random() * maxX * 2 - maxX;
                 const zCoord = Math.random() * maxZ * 2 - maxZ;
                 anotherSphere.changePos(new Vector3(xCoord, 3 * k, zCoord));
                 anotherSphere.setVel(new Vector3(0, 0, 0));
+                anotherSphere.setPower(this.NPCPower);
                 this.add(anotherSphere);
                 this.controller.NPCSpheres.push(anotherSphere);
             }
