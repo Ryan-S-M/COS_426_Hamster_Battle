@@ -8,13 +8,16 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene } from 'scenes';
-import * as handlers from './components/handlers.js';
+import { SeedScene, StartScene } from 'scenes';
 
 // Initialize core ThreeJS components
 const camera = new PerspectiveCamera();
 const scene = new SeedScene();
+const startScene = new StartScene();
+//const restartScene = new RestartScene();
 const renderer = new WebGLRenderer({ antialias: true });
+
+let state = 0;
 
 // Set up camera
 camera.position.set(0, 5, -8);
@@ -39,8 +42,16 @@ document.body.appendChild(canvas);
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     // controls.update();
-    renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp);
+    if (state == 0) {
+        renderer.render(startScene, camera);
+    } else if (state == 1) {
+        renderer.render(scene, camera);
+        scene.update && scene.update(timeStamp);
+    } else if (state == 2) {
+        renderer.render(startScene, camera);
+        //renderer.render(restart_page, camera);
+    }
+     
     window.requestAnimationFrame(onAnimationFrameHandler);
 
     // testing
@@ -50,7 +61,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     camera.position.copy(scene.player.position.clone().add(offset));
     camera.lookAt(scene.player.position);
     if (camera.position.y < -10) {
-        alert("you lost :(");
+        state = 2;
     }
 
 };
@@ -65,5 +76,31 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
-window.addEventListener('keydown', event => handlers.handleKeyDown(event, scene), false);
+window.addEventListener('keydown', event => handleKeyDown(event, scene), false);
 
+function handleKeyDown(event, scene) {
+    if (event.key == "a") {
+        scene.player.turnLeft();
+        // console.log("turning Left");
+        const axis = new Vector3(scene.player.position.x, 1, scene.player.position.z);
+
+        // scene.rotateOnAxis(axis, - Math.PI / 10.0);
+    }
+    if (event.key == "d") {
+        scene.player.turnRight();
+        // console.log("turning right");
+        const axis = new Vector3(scene.player.position.x, 1, scene.player.position.z);
+
+        // scene.rotateOnAxis(axis, Math.PI / 10.0);
+
+    }
+    if (event.key == "w") {
+        scene.player.goForward();
+        // console.log("going forward");
+    }
+    if (event.key == " ") {
+        if (state == 0 || state == 2) {
+            state = 1;
+        }
+    }
+}
