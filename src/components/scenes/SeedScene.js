@@ -180,12 +180,20 @@ class SeedScene extends Scene {
     }
     
     reset() {
-        this.state.rotationSpeed = 1;
+        // this.state.rotationSpeed = 1;
+
+        this.level = 1;
+        this.numNPCSpawn = 1;
+        this.NPCWeight = 0.5;
+        this.NPCPower = 1;
+        this.NPCRandomness = 1;
+        this.NPCColor = 0xff3344;
+
 
         this.player.changePos(new Vector3(0, 3, 0));
         this.player.setVel(new Vector3(0, 0, 0));
         this.player.setDirection(new Vector3(0, 0, 1));
-        this.player.setPower(10);
+        this.player.setPower(50);
         console.log(this.player.hamster.state.animations)
     }
 }

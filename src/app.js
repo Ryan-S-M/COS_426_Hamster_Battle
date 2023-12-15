@@ -79,10 +79,10 @@ const onAnimationFrameHandler = (timeStamp) => {
             console.log("total number of spheres is ", sphereList.length);
         }
         
-        playScene.level = 1;
-        playScene.numNPCSpawn = 1;
-        playScene.NPCWeight = 0.5;
-        playScene.NPCPower = 1;
+        // playScene.level = 1;
+        // playScene.numNPCSpawn = 1;
+        // playScene.NPCWeight = 0.5;
+        // playScene.NPCPower = 1;
     }
 
 };
