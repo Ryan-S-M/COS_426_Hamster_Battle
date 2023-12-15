@@ -122,14 +122,18 @@ function handleKeyDown(event, scene) {
     if (event.key == " ") {
         if (state == 0) {
             state = 1;
+            let instructions = document.getElementsByClassName("instructions");
+            for (const elem of instructions) {
+                elem.hidden = true;
+            }
         } else if (state == 2) {
             playScene.reset();
             state = 1
+            let restart = document.getElementsByClassName("restart");
+            for (const elem of restart) {
+                elem.hidden = true;
+            }
         }
         
-        let instructions = document.getElementsByClassName("instructions");
-        for (const elem of instructions) {
-            elem.hidden = true;
-        }
     }
 }
