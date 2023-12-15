@@ -26,10 +26,6 @@ class HamsterSphere extends Group {
           this.NPCRandomness = 0;
           this.NPCNumFrames = 0;
         }
-
-        // add an array of objects we're touching
-        // this.touching = [];
-
         
         // taken from example in https://threejs.org/docs/#api/en/objects/Group
         this.geometry = new SphereGeometry(radius);
@@ -45,14 +41,11 @@ class HamsterSphere extends Group {
         parent.addToSphereList(this);
     }
     update(timeStamp) {
-        // console.log("update() called");
         // set initial time
         if (this.prevTime == -1) {
             this.prevTime = timeStamp;
             return;
         }
-        // console.log("position: ", this.position);
-        // console.log("deltaT: ", (timeStamp - this.prevTime) / 500.0)
         
         // fixed delta
         const deltaT = 0.03;
@@ -60,37 +53,9 @@ class HamsterSphere extends Group {
         // apply gravity and integrate
         this.applyGravity();
 
-        // calculate normal forces
-        // alternate to remove
-
-        // this.touching = this.touching.filter(obj => obj.isTouchingSphere(this.position, this.radius)[0]);
-        // let array = [1, 2, 3];
-        // array = array.filter(entry => entry < 2);
-        // console.log(array);
-        // for (const obj of this.touching) {
-        //     let [isTouching, diff] = obj.isTouchingSphere(this.position, this.radius) 
-        //     // console.log("touching at time ", timeStamp);
-        //     // console.log("hey");
-        //     console.log("net force before normal: ", this.netForce);
-
-        //     const normalForce = diff.clone().normalize().multiplyScalar(- this.netForce.dot(diff.clone().normalize()))
-        //     // this.addForce(normalForce);
-        //     console.log("normalForce: ", normalForce);
-        //     console.log("dot: ", this.netForce.dot(diff));
-        //     console.log("diff is", diff);
-        //     console.log("net force after: ", this.netForce);
-            
-        // }
-        
-        // 200 seems to work well, at least initially for falling distances
-        // this.verletIntegrate((timeStamp - this.prevTime) / 500.0);
-        // console.log("about to integrate");
         this.verletIntegrate(deltaT);
         this.applyFriction();
         this.prevTime = timeStamp;
-        // this.turnLeft();
-        // this.turnRight();
-        // this.goForward();
     }
 
     // otherBall is a HamsterSphere object
@@ -99,9 +64,7 @@ class HamsterSphere extends Group {
         const diff = this.position.clone().sub(otherBall.position);
         // console.log("diff length: ", diff.length());
         if (diff.lengthSq() < (this.radius + otherBall.radius) * (this.radius + otherBall.radius)) {
-            // console.log("overlapping spheres!!");
             const diff_norm = diff.clone().normalize();
-            // const neg_diff_norm = diff_norm.clone().multiplyScalar(-1);
             const otherToInt = diff_norm.clone().multiplyScalar(diff.length() * otherBall.radius / (otherBall.radius + this.radius));
             const intersect = otherBall.position.clone().add(otherToInt);
 
@@ -109,27 +72,18 @@ class HamsterSphere extends Group {
             this.position.copy(intersect.clone().add(diff_norm.clone().multiplyScalar(this.radius)));
             otherBall.position.copy(intersect.clone().sub(diff_norm.clone().multiplyScalar(otherBall.radius)));
             
-            // const u1 = neg_diff_norm.dot(this.velocity);
             const u1 = diff_norm.dot(this.velocity);
             const u2 = diff_norm.dot(otherBall.velocity);
 
             const m1 = this.mass;
             const m2 = otherBall.mass;
-            // console.log("m1", m1);
-            // console.log("m2", m2);
-            // console.log("u1, ", u1);
-            // console.log("u2, ", u2);
             const v1 = (m1 - m2) / (m1 + m2) * u1 + 2 * m2 / (m1 + m2) * u2;
             const v2 = 2 * m1 / (m1 + m2) * u1 + (m2 - m1) / (m1 + m2) * u2;
-            // console.log("v1, ", v1);
-            // console.log("v2, ", v2);
 
-            // this.velocity.sub(neg_diff_norm.clone().multiplyScalar(u1));
             this.velocity.sub(diff_norm.clone().multiplyScalar(u1));
             otherBall.velocity.sub(diff_norm.clone().multiplyScalar(u2));
 
             this.velocity.add(diff_norm.clone().multiplyScalar(v1));
-            // otherBall.velocity.add(neg_diff_norm.clone().multiplyScalar(v2));
             otherBall.velocity.add(diff_norm.clone().multiplyScalar(v2));
         }
     }
@@ -140,8 +94,6 @@ class HamsterSphere extends Group {
 
     // adapted from A5
     handleBoxCollision(box) {
-        // console.log("box: ", box);
-        // const boundingBox = box.geometry.boundingBox.clone();
         const boundingBox = new Box3().setFromObject(box);
         const posNoFriction = new Vector3();
         // not sure if we really need epsilon here
@@ -155,9 +107,6 @@ class HamsterSphere extends Group {
         // calculate by checking whether distance to nearest point in box is within radius
         // of the center
         // based on http://blog.nuclex-games.com/tutorials/collision-detection/static-sphere-vs-aabb/
-        // const thisPos = this.getWorldPosition();
-        // console.log("my position: ", this.position);
-        // console.log("bounding Box: ", boundingBox);
         const closestPointInBox = boundingBox.max.clone().min(boundingBox.min.clone().max(this.position));
         const dist = closestPointInBox.clone().sub(this.position).lengthSq();
         if (dist < this.radius * this.radius) {
@@ -319,7 +268,6 @@ class HamsterSphere extends Group {
     setRandomness(num) {
       this.NPCRandomness = num;
     }
-
 
 }
 
