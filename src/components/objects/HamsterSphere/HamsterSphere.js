@@ -53,7 +53,7 @@ class HamsterSphere extends Group {
         // apply gravity and integrate
         this.applyGravity();
 
-        this.verletIntegrate(deltaT);
+        this.integrate(deltaT);
         this.applyFriction();
         this.prevTime = timeStamp;
     }
@@ -166,8 +166,8 @@ class HamsterSphere extends Group {
         this.addForce(grav);
     }
 
-    // Verlet Integration, based on A5
-    verletIntegrate(deltaT) {
+    // Integration, based on Verlet Integration in A5
+    integrate(deltaT) {
         const DAMPING = 0.03;
 
         // find the difference between current and previous positions
