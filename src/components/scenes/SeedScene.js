@@ -130,17 +130,7 @@ class SeedScene extends Scene {
                 sphere.material.dispose();
                 console.log("despawned a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
                 console.log("total number of spheres is ", sphereList.length);
-                this.level += 1;
-                console.log("leveling up to: ", this.level);
-                if (this.level % 3 == 0) {
-                    this.numNPCSpawn += 1;
-                }
-                else if (this.level % 3 == 1){
-                    this.NPCWeight += 0.5;
-                }
-                else {
-                    this.NPCPower += 0.5;
-                }
+                
                 console.log("NPC number spawn: ", this.numNPCSpawn);
                 console.log("NPC weight: ", this.NPCWeight);
                 console.log("NPc Power: ", this.NPCPower);
@@ -149,6 +139,20 @@ class SeedScene extends Scene {
         }
 
         if (this.controller.NPCSpheres.length == 0) {
+            // make the game harder
+            this.level += 1;
+            console.log("leveling up to: ", this.level);
+            if (this.level % 3 == 0) {
+                this.numNPCSpawn += 1;
+            }
+            else if (this.level % 3 == 1){
+                this.NPCWeight += 0.5;
+            }
+            else {
+                this.NPCPower += 0.5;
+            }
+
+
             // minX =  - this.box.geometry.parameters.width / 3;
             const maxX = this.box.geometry.parameters.width / 3;
             // minZ = - this.box.geometry.parameters.depth / 3;
