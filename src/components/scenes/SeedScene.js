@@ -125,6 +125,9 @@ class SeedScene extends Scene {
                 this.controller.NPCSpheres.splice(i, 1);
                 const sphereIndex = sphereList.indexOf(sphere);
                 sphereList.splice(sphereIndex, 1);
+                this.remove(sphere);
+                sphere.geometry.dispose();
+                sphere.material.dispose();
                 console.log("despawned a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
                 console.log("total number of spheres is ", sphereList.length);
                 this.level += 1;
@@ -138,6 +141,9 @@ class SeedScene extends Scene {
                 else {
                     this.NPCPower += 0.5;
                 }
+                console.log("NPC number spawn: ", this.numNPCSpawn);
+                console.log("NPC weight: ", this.NPCWeight);
+                console.log("NPc Power: ", this.NPCPower);
 
             }
         }
