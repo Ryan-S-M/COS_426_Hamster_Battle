@@ -41,7 +41,7 @@ class SeedScene extends Scene {
         this.player.setPower(50);
 
         this.NPCColor = 0xff3344;
-        this.NPCRandomness = 1;
+        this.NPCRandomness = 0.9;
 
         const anotherSphere = new HamsterSphere(this, this.NPCRadius, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
@@ -184,7 +184,7 @@ class SeedScene extends Scene {
         this.numNPCSpawn = 1;
         this.NPCWeight = 0.5;
         this.NPCPower = 1;
-        this.NPCRandomness = 1;
+        this.NPCRandomness = 0.9;
         this.NPCColor = 0xff3344;
         this.NPCRadius = 1;
 
