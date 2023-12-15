@@ -3,7 +3,7 @@ import {Hamster} from '../Hamster';
 
 class HamsterSphere extends Group {
 
-    constructor(parent, radius, x, y, z, mass, color) {
+    constructor(parent, radius, x, y, z, mass, color, isNPC) {
         super();
 
         this.name = 'HamsterSphere';
@@ -19,6 +19,13 @@ class HamsterSphere extends Group {
         this.lastNetForce = new Vector3();
         this.previous = new Vector3().copy(this.position);
         this.prevTime = -1;
+
+        this.isNPC = isNPC;
+        if (isNPC) {
+          this.NPCTarget = null;
+          this.NPCRandomness = 0;
+          this.NPCNumFrames = 0;
+        }
 
         // add an array of objects we're touching
         // this.touching = [];
@@ -349,6 +356,9 @@ class HamsterSphere extends Group {
     }
     setPower(num) {
         this.power = num;
+    }
+    setRandomness(num) {
+      this.NPCRandomness = num;
     }
 
 

@@ -35,7 +35,7 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2, 0xffee44);
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2, 0xffee44, false);
         // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(0, 3, 0));
         playerSphere.setVel(new Vector3(0, 0, 0));
@@ -45,11 +45,13 @@ class SeedScene extends Scene {
         this.player.setPower(10);
 
         this.NPCColor = 0xff3344;
+        this.NPCRandomness = 1;
 
-        const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor);
+        const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
         anotherSphere.setPower(this.NPCPower);
+        anotherSphere.setRandomness(this.NPCRandomness);
         // const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
         // sphere2.changePos(new Vector3(0, 3, 3));
         // sphere2.setVel(new Vector3(0, 0, 0));
@@ -161,12 +163,13 @@ class SeedScene extends Scene {
 
 
             for (let k = 1; k <= this.numNPCSpawn; k++) {
-                const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor);
+                const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
                 const xCoord = Math.random() * maxX * 2 - maxX;
                 const zCoord = Math.random() * maxZ * 2 - maxZ;
                 anotherSphere.changePos(new Vector3(xCoord, 3 * k, zCoord));
                 anotherSphere.setVel(new Vector3(0, 0, 0));
                 anotherSphere.setPower(this.NPCPower);
+                anotherSphere.setRandomness(this.NPCRandomness);
                 this.add(anotherSphere);
                 this.controller.NPCSpheres.push(anotherSphere);
             }
