@@ -3,7 +3,7 @@ import {Hamster} from '../Hamster';
 
 class HamsterSphere extends Group {
 
-    constructor(parent, radius, x, y, z, mass) {
+    constructor(parent, radius, x, y, z, mass, color) {
         super();
 
         this.name = 'HamsterSphere';
@@ -25,11 +25,11 @@ class HamsterSphere extends Group {
 
         
         // taken from example in https://threejs.org/docs/#api/en/objects/Group
-        const geometry = new SphereGeometry(radius);
-        const material = new MeshPhongMaterial( {color: 0xffee44, transparent: true, opacity:0.4} );
+        this.geometry = new SphereGeometry(radius);
+        this.material = new MeshPhongMaterial( {color: color, transparent: true, opacity:0.4} );
         
         // const cubeA = new THREE.Mesh( geometry, material );
-        this.add(new Mesh(geometry, material));
+        this.add(new Mesh(this.geometry, this.material));
 
         this.hamster = new Hamster(parent, 0.4, 0, 0, 0.1);
         this.add(this.hamster);
