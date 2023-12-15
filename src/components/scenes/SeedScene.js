@@ -111,6 +111,17 @@ class SeedScene extends Scene {
             } else if (dir == "forward") {
                 sphere.goForward();
             }
+            if (sphere.position.y < -10) {
+                this.controller.NPCSpheres.splice(i, 1);
+            }
+        }
+
+        if (this.controller.NPCSpheres.length == 0) {
+            const anotherSphere = new HamsterSphere(this, 1.25, 0, 0, 0, 1);
+            anotherSphere.changePos(new Vector3(-3, 3, 0));
+            anotherSphere.setVel(new Vector3(0, 0, 0));
+            this.add(anotherSphere);
+            this.controller.NPCSpheres.push(anotherSphere);
         }
 
 
