@@ -34,7 +34,42 @@ class HamsterController {
             return null;
         }
 
-        let vec_btw_centers = this.playerSphere.position.clone().sub(hs.position);
+        // new goal: point on the player sphere opposite the closest corner
+        const x_min = this.boundaries.x_min;
+        const x_max = this.boundaries.x_max;
+        const z_min = this.boundaries.z_min;
+        const z_max = this.boundaries.z_max;
+
+        const playerRadius = this.playerSphere.radius;
+        const playerPos = this.playerSphere.position.clone();
+        playerPos.y = 0;
+        const dist1 = playerPos.clone().sub(new Vector3(x_min, 0, z_min)).lengthSq();
+        const dist2 = playerPos.clone().sub(new Vector3(x_min, 0, z_max)).lengthSq();
+        const dist3 = playerPos.clone().sub(new Vector3(x_max, 0, z_min)).lengthSq();
+        const dist4 = playerPos.clone().sub(new Vector3(x_max, 0, z_max)).lengthSq();
+        const minDist = Math.min(dist1, dist2, dist3, dist4);
+        let oppDir;
+        if (dist1 == minDist) {
+            oppDir = playerPos.clone().sub(new Vector3(x_min, 0, z_min)).normalize();
+        }
+        else if (dist2 == minDist) {
+            oppDir = playerPos.clone().sub(new Vector3(x_min, 0, z_max)).normalize();
+        }
+        else if (dist3 == minDist) {
+            oppDir = playerPos.clone().sub(new Vector3(x_max, 0, z_min)).normalize();
+        }
+        else {
+            oppDir = playerPos.clone().sub(new Vector3(x_max, 0, z_max)).normalize();
+        }
+        const aimTowards = playerPos.clone().add(oppDir.clone().multiplyScalar(playerRadius));
+        aimTowards.y = this.playerSphere.position.y;
+        // console.log("aimTowards: ", aimTowards);
+
+
+
+
+        // let vec_btw_centers = this.playerSphere.position.clone().sub(hs.position);
+        let vec_btw_centers = aimTowards.clone().sub(hs.position);
         let best_direction = new Vector3(vec_btw_centers.x, 0, vec_btw_centers.z);
         let angle = hs.direction.angleTo(best_direction);
 
