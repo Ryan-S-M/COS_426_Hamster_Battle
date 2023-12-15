@@ -42,7 +42,7 @@ class SeedScene extends Scene {
         playerSphere.setDirection(new Vector3(0, 0, 1));
 
         this.player = playerSphere;
-        this.player.setPower(10);
+        this.player.setPower(25);
 
         this.NPCColor = 0xff3344;
         this.NPCRandomness = 1;
@@ -133,26 +133,30 @@ class SeedScene extends Scene {
                 console.log("despawned a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
                 console.log("total number of spheres is ", sphereList.length);
                 
+                // make the game harder
+                this.level += 1;
+                console.log("leveling up to: ", this.level);
+                
+                if (this.level % 2 == 1){
+                    this.NPCPower += 0.5;
+                }
+                else {
+                    this.NPCWeight += 0.5;
+                }
+                this.NPCRandomness *= 0.9;
+
                 console.log("NPC number spawn: ", this.numNPCSpawn);
                 console.log("NPC weight: ", this.NPCWeight);
                 console.log("NPc Power: ", this.NPCPower);
+                console.log("NPC randomness: ", this.NPCRandomness)
 
             }
         }
 
         if (this.controller.NPCSpheres.length == 0) {
-            // make the game harder
-            this.level += 1;
-            console.log("leveling up to: ", this.level);
-            if (this.level % 3 == 0) {
-                this.numNPCSpawn += 1;
-            }
-            else if (this.level % 3 == 1){
-                this.NPCWeight += 0.5;
-            }
-            else {
-                this.NPCPower += 0.5;
-            }
+            this.numNPCSpawn += 1;
+            // console.log("NPCrandomness: ", this.NPCRandomness);
+            // }
 
 
             // minX =  - this.box.geometry.parameters.width / 3;

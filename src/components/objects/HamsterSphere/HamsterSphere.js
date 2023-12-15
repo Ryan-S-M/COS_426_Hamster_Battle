@@ -136,7 +136,7 @@ class HamsterSphere extends Group {
     }
 
     applyFriction() {
-        this.addForce(this.velocity.clone().multiplyScalar(- 0.5 * this.mass))
+        this.addForce(this.velocity.clone().multiplyScalar(- 0.8 * this.mass))
     }
 
     // adapted from A5

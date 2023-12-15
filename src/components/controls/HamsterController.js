@@ -53,7 +53,7 @@ class HamsterController {
             // console.log("incrementing frame number", hs.NPCNumFrames);
             // console.log("randomness: ", hs.NPCRandomness)
             hs.NPCNumFrames += 1;
-            if (hs.NPCNumFrames >= 100) {
+            if (hs.NPCNumFrames >= 200) {
                 // get new random position
                 // console.log("random: ", Math.random());
                 if (hs.NPCRandomness > Math.random()) {
@@ -69,6 +69,7 @@ class HamsterController {
                 }
                 else {
                     hs.NPCNumFrames = 0;
+                    console.log("NPC aiming towards player");
                 }
             }
         }
@@ -76,6 +77,7 @@ class HamsterController {
             if (hs.NPCRandomness < Math.random()) {
                 hs.NPCTarget = null;
                 hs.NPCNumFrames = 0;
+                console.log("NPC aiming at player");
             }
             else {
                 hs.NPCTarget = new Vector3(
