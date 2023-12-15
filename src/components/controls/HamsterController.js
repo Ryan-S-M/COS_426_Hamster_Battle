@@ -50,8 +50,6 @@ class HamsterController {
         const z_max = this.boundaries.z_max;
 
         if (hs.NPCTarget == null) {
-            // console.log("incrementing frame number", hs.NPCNumFrames);
-            // console.log("randomness: ", hs.NPCRandomness)
             hs.NPCNumFrames += 1;
             if (hs.NPCNumFrames >= 200) {
                 // get new random position
@@ -61,15 +59,15 @@ class HamsterController {
                         (x_min + Math.random() * (x_max - x_min)) * 0.75,
                         hs.position.y,
                         (z_min + Math.random() * (z_max - z_min)) * 0.75);
-                    console.log("new target after not having one: ", hs.NPCTarget);
-                    console.log("x_min: ", x_min);
-                    console.log("x_max: ", x_max);
-                    console.log("z_min: ", z_min);
-                    console.log("z_max: ", z_max);
+                    // console.log("new target after not having one: ", hs.NPCTarget);
+                    // console.log("x_min: ", x_min);
+                    // console.log("x_max: ", x_max);
+                    // console.log("z_min: ", z_min);
+                    // console.log("z_max: ", z_max);
                 }
                 else {
                     hs.NPCNumFrames = 0;
-                    console.log("NPC aiming towards player");
+                    // console.log("NPC aiming towards player");
                 }
             }
         }
@@ -77,14 +75,14 @@ class HamsterController {
             if (hs.NPCRandomness < Math.random()) {
                 hs.NPCTarget = null;
                 hs.NPCNumFrames = 0;
-                console.log("NPC aiming at player");
+                // console.log("NPC aiming at player");
             }
             else {
                 hs.NPCTarget = new Vector3(
                     (x_min + Math.random() * (x_max - x_min)) * 0.75,
                     hs.position.y,
                     (z_min + Math.random() * (z_max - z_min)) * 0.75);
-                console.log("new target after having one", hs.NPCTarget);
+                // console.log("new target after having one", hs.NPCTarget);
             }
         } 
         // else {
@@ -131,7 +129,7 @@ class HamsterController {
             }
             else {
                 aimTowards = new Vector3(0, hs.position.y, 0);
-                console.log("aiming towards center");
+                // console.log("aiming towards center");
             }
         }
         // console.log("aimTowards: ", aimTowards);

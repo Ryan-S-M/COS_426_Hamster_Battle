@@ -62,7 +62,6 @@ class HamsterSphere extends Group {
     collideBall(otherBall) {
         // first, determine if these balls are overlapping
         const diff = this.position.clone().sub(otherBall.position);
-        // console.log("diff length: ", diff.length());
         if (diff.lengthSq() < (this.radius + otherBall.radius) * (this.radius + otherBall.radius)) {
             const diff_norm = diff.clone().normalize();
             const otherToInt = diff_norm.clone().multiplyScalar(diff.length() * otherBall.radius / (otherBall.radius + this.radius));
@@ -155,18 +154,8 @@ class HamsterSphere extends Group {
           this.position.copy(posNoFriction.add(diff.clone().normalize().multiplyScalar(this.radius)));
 
           // reflect velocity in this direction
-          // TODO: FIGURE OUT WHY THIS DOESN"T WORK WITH RADIUS > 1
           const reflectVel = diff.clone().normalize().multiplyScalar(- 1 * this.velocity.dot(diff.clone().normalize()));
           this.velocity.add(reflectVel);
-
-          // hacky?
-          // approximate force applied to box
-        //   console.log("diff:", diff);
-        //   console.log("last net force: ", this.lastNetForce);
-        //   this.addForce(diff.clone().multiplyScalar(- diff.dot(this.lastNetForce)));
-        //   console.log("After intersecting: ", this.position);
-        //   console.log("\n***************************************")
-
         }
     }
 

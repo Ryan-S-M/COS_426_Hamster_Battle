@@ -62,8 +62,8 @@ const onAnimationFrameHandler = (timeStamp) => {
             playScene.remove(sphere);
             sphere.geometry.dispose();
             sphere.material.dispose();
-            console.log("despawned a hamster, number of NPCS is ", playScene.controller.NPCSpheres.length);
-            console.log("total number of spheres is ", sphereList.length);
+            // console.log("despawned a hamster, number of NPCS is ", playScene.controller.NPCSpheres.length);
+            // console.log("total number of spheres is ", sphereList.length);
         }
     }
 
