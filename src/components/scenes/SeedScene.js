@@ -57,9 +57,6 @@ class SeedScene extends Scene {
         }
 
         this.controller = new HamsterController(playerSphere, NPCSpheres, this.box);
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {
