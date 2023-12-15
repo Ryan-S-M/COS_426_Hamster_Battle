@@ -35,19 +35,19 @@ class SeedScene extends Scene {
         // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
-        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2, 0xffee44, false);
+        const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 4, 0xffee44, false);
         // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(0, 3, 0));
         playerSphere.setVel(new Vector3(0, 0, 0));
         playerSphere.setDirection(new Vector3(0, 0, 1));
 
         this.player = playerSphere;
-        this.player.setPower(25);
+        this.player.setPower(50);
 
         this.NPCColor = 0xff3344;
         this.NPCRandomness = 1;
 
-        const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
+        const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
         anotherSphere.setPower(this.NPCPower);
@@ -141,7 +141,7 @@ class SeedScene extends Scene {
                     this.NPCPower += 0.5;
                 }
                 else {
-                    this.NPCWeight += 0.5;
+                    this.NPCWeight += 0.1;
                 }
                 this.NPCRandomness *= 0.9;
 
@@ -155,6 +155,19 @@ class SeedScene extends Scene {
 
         if (this.controller.NPCSpheres.length == 0) {
             this.numNPCSpawn += 1;
+            if (this.numNPCSpawn % 3 == 1) {
+                this.numNPCSpawn = 1;
+                this.NPCWeight *= 1.25;
+                this.NPCPower *= 3;
+                // get red component
+                const rColor = this.NPCColor >>> 16;
+                const bgColor = this.NPCColor & 0xffff;
+                this.NPCColor = bgColor << 8 + rColor;
+                // const temp = this.NPCColor.r;
+                // this.NPCColor.r = this.NPCColor.g;
+                // this.NPCColor.g = this.NPCColor.b;
+                // this.NPCColor.b = temp;
+            }
             // console.log("NPCrandomness: ", this.NPCRandomness);
             // }
 
@@ -167,7 +180,7 @@ class SeedScene extends Scene {
 
 
             for (let k = 1; k <= this.numNPCSpawn; k++) {
-                const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
+                const anotherSphere = new HamsterSphere(this, 1, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
                 const xCoord = Math.random() * maxX * 2 - maxX;
                 const zCoord = Math.random() * maxZ * 2 - maxZ;
                 anotherSphere.changePos(new Vector3(xCoord, 3 * k, zCoord));
