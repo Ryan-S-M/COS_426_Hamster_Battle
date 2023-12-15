@@ -14,7 +14,6 @@ import { SeedScene, StartScene } from 'scenes';
 const camera = new PerspectiveCamera();
 let playScene = new SeedScene();
 const startScene = new StartScene();
-//const restartScene = new RestartScene();
 const renderer = new WebGLRenderer({ antialias: true });
 
 let state = 0;
@@ -31,17 +30,8 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-// Set up controls
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
-// controls.enablePan = false;
-// controls.minDistance = 4;
-// controls.maxDistance = 16;
-// controls.update();
-
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    // controls.update();
     if (state == 0 || state == 2) {
         renderer.render(startScene, camera);
     } else if (state == 1) {
@@ -52,9 +42,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     window.requestAnimationFrame(onAnimationFrameHandler);
 
     // testing
-    // camera.lookAt(playScene.player.position);
     const offset = playScene.player.direction.clone().multiplyScalar(-8).add(new Vector3(0, 5, 0));
-    // camera.position.copy(playScene.player.position.clone().add(new Vector3(0, 5, -8)))
     camera.position.copy(playScene.player.position.clone().add(offset));
     camera.lookAt(playScene.player.position);
     if (camera.position.y < -10) {
@@ -65,7 +53,6 @@ const onAnimationFrameHandler = (timeStamp) => {
             elem.hidden = false;
         }
         
-        //console.log("about to despawn a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
         let sphereList = playScene.state.sphereList;
         for (let i = 0; i < playScene.controller.NPCSpheres.length; i++) {
             let sphere = playScene.controller.NPCSpheres[i];
@@ -78,11 +65,6 @@ const onAnimationFrameHandler = (timeStamp) => {
             console.log("despawned a hamster, number of NPCS is ", playScene.controller.NPCSpheres.length);
             console.log("total number of spheres is ", sphereList.length);
         }
-        
-        // playScene.level = 1;
-        // playScene.numNPCSpawn = 1;
-        // playScene.NPCWeight = 0.5;
-        // playScene.NPCPower = 1;
     }
 
 };
@@ -102,22 +84,14 @@ window.addEventListener('keydown', event => handleKeyDown(event, playScene), fal
 function handleKeyDown(event, scene) {
     if (event.key == "a") {
         scene.player.turnLeft();
-        // console.log("turning Left");
         const axis = new Vector3(scene.player.position.x, 1, scene.player.position.z);
-
-        // scene.rotateOnAxis(axis, - Math.PI / 10.0);
     }
     if (event.key == "d") {
         scene.player.turnRight();
-        // console.log("turning right");
         const axis = new Vector3(scene.player.position.x, 1, scene.player.position.z);
-
-        // scene.rotateOnAxis(axis, Math.PI / 10.0);
-
     }
     if (event.key == "w") {
         scene.player.goForward();
-        // console.log("going forward");
     }
     if (event.key == " ") {
         if (state == 0) {

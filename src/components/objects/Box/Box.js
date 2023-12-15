@@ -10,7 +10,6 @@ class Box extends Group {
         this.geometry = new BoxGeometry( length, height, width);
         const material = new MeshPhongMaterial( {color: 0x333333} );
         
-        // const cubeA = new THREE.Mesh( geometry, material );
         this.add(new Mesh(this.geometry, material));
 
         parent.addToUpdateList(this);
