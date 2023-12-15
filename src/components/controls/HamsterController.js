@@ -42,24 +42,29 @@ class HamsterController {
 
         const playerRadius = this.playerSphere.radius;
         const playerPos = this.playerSphere.position.clone();
-        playerPos.y = 0;
-        const dist1 = playerPos.clone().sub(new Vector3(x_min, 0, z_min)).lengthSq();
-        const dist2 = playerPos.clone().sub(new Vector3(x_min, 0, z_max)).lengthSq();
-        const dist3 = playerPos.clone().sub(new Vector3(x_max, 0, z_min)).lengthSq();
-        const dist4 = playerPos.clone().sub(new Vector3(x_max, 0, z_max)).lengthSq();
+        // playerPos.y = 0;
+        const edgePoint1 = new Vector3(playerPos.x, playerPos.y, z_min);
+        const edgePoint2 = new Vector3(playerPos.x, playerPos.y, z_max);
+        const edgePoint3 = new Vector3(x_min, playerPos.y, playerPos.z);
+        const edgePoint4 = new Vector3(x_max, playerPos.y, playerPos.z);
+
+        const dist1 = playerPos.clone().sub(edgePoint1).lengthSq();
+        const dist2 = playerPos.clone().sub(edgePoint2).lengthSq();
+        const dist3 = playerPos.clone().sub(edgePoint3).lengthSq();
+        const dist4 = playerPos.clone().sub(edgePoint4).lengthSq();
         const minDist = Math.min(dist1, dist2, dist3, dist4);
         let oppDir;
         if (dist1 == minDist) {
-            oppDir = playerPos.clone().sub(new Vector3(x_min, 0, z_min)).normalize();
+            oppDir = playerPos.clone().sub(edgePoint1).normalize();
         }
         else if (dist2 == minDist) {
-            oppDir = playerPos.clone().sub(new Vector3(x_min, 0, z_max)).normalize();
+            oppDir = playerPos.clone().sub(edgePoint2).normalize();
         }
         else if (dist3 == minDist) {
-            oppDir = playerPos.clone().sub(new Vector3(x_max, 0, z_min)).normalize();
+            oppDir = playerPos.clone().sub(edgePoint3).normalize();
         }
         else {
-            oppDir = playerPos.clone().sub(new Vector3(x_max, 0, z_max)).normalize();
+            oppDir = playerPos.clone().sub(edgePoint4).normalize();
         }
         const aimTowards = playerPos.clone().add(oppDir.clone().multiplyScalar(playerRadius));
         aimTowards.y = this.playerSphere.position.y;
