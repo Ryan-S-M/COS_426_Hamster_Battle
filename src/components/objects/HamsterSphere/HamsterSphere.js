@@ -186,7 +186,7 @@ class HamsterSphere extends Group {
         diff.multiplyScalar(1 - DAMPING).multiplyScalar(deltaT);
         const a_scaled = a.clone().multiplyScalar(deltaT * deltaT);
         diff.add(a_scaled);
-        this.position.copy(this.previous.clone().add(diff));
+      this.position.copy(this.previous.clone().add(diff));
     
         this.lastNetForce.copy(this.netForce);
         this.netForce = new Vector3(0, 0, 0);
