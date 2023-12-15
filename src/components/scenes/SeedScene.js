@@ -9,7 +9,6 @@ class SeedScene extends Scene {
         // Call parent Scene() constructor
         super();
 
-        // this.camera = camera;
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
@@ -26,17 +25,12 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
-        // this.background = new Color(0xff0000);
 
         // Add meshes to scene
-        //const land = new Land();
-        //const flower = new Flower(this);
         const lights = new BasicLights();
-        // const cube = new Cube(this);
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
         const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 2, 0xffee44);
-        // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(0, 3, 0));
         playerSphere.setVel(new Vector3(0, 0, 0));
         playerSphere.setDirection(new Vector3(0, 0, 1));
@@ -50,13 +44,6 @@ class SeedScene extends Scene {
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
         anotherSphere.setPower(this.NPCPower);
-        // const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
-        // sphere2.changePos(new Vector3(0, 3, 3));
-        // sphere2.setVel(new Vector3(0, 0, 0));
-        // const sphere3 = new HamsterSphere(this, 1, 0, 0, 0, 5);
-        // sphere3.changePos(new Vector3(0, 3, -3));
-        // sphere3.setVel(new Vector3(0, 0, 0));
-        // this.add(lights, box, playerSphere, anotherSphere, sphere2, sphere3);
         this.add(lights, box, playerSphere, anotherSphere);
         let NPCSpheres = []
         for (let sphere of this.state.sphereList) {
@@ -66,16 +53,6 @@ class SeedScene extends Scene {
         }
 
         this.controller = new HamsterController(playerSphere, NPCSpheres, this.box);
-        // this.add(lights, box, playerSphere)
-        // testing
-        // const box2 = new Box(this, 2, 1, 2);
-        // // // box2.position.sub(new Vector3(1, 0, 0));
-        // box2.updatePos(-2, 0, 0);
-        // this.box2 = box2;
-        // this.add(box2);
-        // const player_hamster = new Hamster(0.4, 0, 0.8, 0);
-        // this.add(player_hamster);
-    
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -175,14 +152,24 @@ class SeedScene extends Scene {
                 sphereList[i].collideBall(sphereList[j]);
             }
         }
-
+    }
+    
+    reset() {
+        this.state.rotationSpeed = 1;
+        this.state.updateList = [];
+        this.state.sphereList = [];
         
-        // console.log("scene position: ", this.position);
-        // console.log("player position: ", this.player.position);
-        // this.position.x = -this.player.position.x;
-        // this.position.z = -this.player.position.z;    
-        // this.camera.position.set(this.player.position.clone().add(new Vector3(0, 5, -8)));
-        // this.camera.lookAt(this.camera.position);
+        this.state.updateList.push(this.player);
+        this.state.sphereList.push(this.player);
+
+        this.player.changePos(new Vector3(0, 3, 0));
+        this.player.setVel(new Vector3(0, 0, 0));
+        this.player.setDirection(new Vector3(0, 0, 1));
+        this.player.setPower(10);
+
+        for (const anim of this.player.hamster.state.animations) {
+            anim.play();
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import { SeedScene, StartScene } from 'scenes';
 
 // Initialize core ThreeJS components
 const camera = new PerspectiveCamera();
-const scene = new SeedScene();
+let playScene = new SeedScene();
 const startScene = new StartScene();
 //const restartScene = new RestartScene();
 const renderer = new WebGLRenderer({ antialias: true });
@@ -45,8 +45,8 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (state == 0) {
         renderer.render(startScene, camera);
     } else if (state == 1) {
-        renderer.render(scene, camera);
-        scene.update && scene.update(timeStamp);
+        renderer.render(playScene, camera);
+        playScene.update && playScene.update(timeStamp);
     } else if (state == 2) {
         renderer.render(startScene, camera);
         //renderer.render(restart_page, camera);
@@ -55,13 +55,33 @@ const onAnimationFrameHandler = (timeStamp) => {
     window.requestAnimationFrame(onAnimationFrameHandler);
 
     // testing
-    // camera.lookAt(scene.player.position);
-    const offset = scene.player.direction.clone().multiplyScalar(-8).add(new Vector3(0, 5, 0));
-    // camera.position.copy(scene.player.position.clone().add(new Vector3(0, 5, -8)))
-    camera.position.copy(scene.player.position.clone().add(offset));
-    camera.lookAt(scene.player.position);
+    // camera.lookAt(playScene.player.position);
+    const offset = playScene.player.direction.clone().multiplyScalar(-8).add(new Vector3(0, 5, 0));
+    // camera.position.copy(playScene.player.position.clone().add(new Vector3(0, 5, -8)))
+    camera.position.copy(playScene.player.position.clone().add(offset));
+    camera.lookAt(playScene.player.position);
     if (camera.position.y < -10) {
         state = 2;
+        
+        //console.log("about to despawn a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
+        let sphereList = playScene.state.sphereList;
+        for (let i = 0; i < playScene.controller.NPCSpheres.length; i++) {
+            let sphere = playScene.controller.NPCSpheres[i];
+            playScene.controller.NPCSpheres.splice(i, 1);
+            const sphereIndex = sphereList.indexOf(sphere);
+            sphereList.splice(sphereIndex, 1);
+            playScene.remove(sphere);
+            sphere.geometry.dispose();
+            sphere.material.dispose();
+            console.log("despawned a hamster, number of NPCS is ", playScene.controller.NPCSpheres.length);
+            console.log("total number of spheres is ", sphereList.length);
+        }
+        
+        playScene.level = 1;
+        playScene.numNPCSpawn = 1;
+        playScene.NPCWeight = 0.5;
+        playScene.NPCPower = 1;
+        console.log("leveling resetting to: ", playScene.level);
     }
 
 };
@@ -76,7 +96,7 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
-window.addEventListener('keydown', event => handleKeyDown(event, scene), false);
+window.addEventListener('keydown', event => handleKeyDown(event, playScene), false);
 
 function handleKeyDown(event, scene) {
     if (event.key == "a") {
@@ -99,8 +119,11 @@ function handleKeyDown(event, scene) {
         // console.log("going forward");
     }
     if (event.key == " ") {
-        if (state == 0 || state == 2) {
+        if (state == 0) {
             state = 1;
+        } else if (state == 2) {
+            playScene.reset();
+            state = 1
         }
     }
 }
