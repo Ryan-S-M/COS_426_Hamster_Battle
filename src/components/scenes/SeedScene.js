@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Vector3 } from 'three';
-import { Hamster, Land, Cube, Flower, Box, HamsterSphere} from 'objects';
+import { Box, HamsterSphere} from 'objects';
 import { BasicLights } from 'lights';
 import { HamsterController } from '../controls';
 
@@ -32,7 +32,6 @@ class SeedScene extends Scene {
         const box = new Box(this, 15, 15, 0.5);
         this.box = box;
         const playerSphere = new HamsterSphere(this, 1, 0, 0, 0, 4, 0xffee44, false);
-        // playerSphere.changePos(new Vector3(3, 3, 3));
         playerSphere.changePos(new Vector3(0, 3, 0));
         playerSphere.setVel(new Vector3(0, 0, 0));
         playerSphere.setDirection(new Vector3(0, 0, 1));
@@ -69,12 +68,6 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList, sphereList } = this.state;
-        // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
-        
-        // make scene move up instead of rotation
-        // this.rotation.y = 0;
-        // this.position.x = (timeStamp / 5000.0) % 3;
-        // this.position.y = (timeStamp / 5000.0) % 5;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
@@ -84,9 +77,7 @@ class SeedScene extends Scene {
         // collide spheres with box
         for (const sphere of sphereList) {
             sphere.handleBoxCollision(this.box);
-            // sphere.handleBoxCollision(this.box2);
         }
-
 
         for (let i = 0; i < this.controller.NPCSpheres.length; i++) {
             let sphere = this.controller.NPCSpheres[i];
@@ -113,14 +104,6 @@ class SeedScene extends Scene {
                 this.level += 1;
                 console.log("leveling up to: ", this.level);
                 
-                // if (this.level % 2 == 1){
-                //     this.NPCPower += 0.5;
-                // }
-                // else {
-                //     this.NPCWeight += 0.1;
-                // }
-                
-
                 console.log("NPC number spawn: ", this.numNPCSpawn);
                 console.log("NPC weight: ", this.NPCWeight);
                 console.log("NPc Power: ", this.NPCPower);
@@ -143,17 +126,9 @@ class SeedScene extends Scene {
                 this.NPCColor = (bgColor << 8) + rColor;
                 console.log("color: ", this.NPCColor.toString(16));
             }
-            
-            // console.log("NPCrandomness: ", this.NPCRandomness);
-            // }
 
-
-            // minX =  - this.box.geometry.parameters.width / 3;
             const maxX = this.box.geometry.parameters.width / 3;
-            // minZ = - this.box.geometry.parameters.depth / 3;
             const maxZ = this.box.geometry.parameters.depth / 3;
-
-
 
             for (let k = 1; k <= this.numNPCSpawn; k++) {
                 const anotherSphere = new HamsterSphere(this, this.NPCRadius, 0, 0, 0, this.NPCWeight, this.NPCColor, true);
@@ -168,7 +143,6 @@ class SeedScene extends Scene {
             }
         }
 
-
         // collide spheres with each other
         for (let i = 0; i < sphereList.length; i++) {
             for (let j = i + 1; j < sphereList.length; j++) {
@@ -178,8 +152,6 @@ class SeedScene extends Scene {
     }
     
     reset() {
-        // this.state.rotationSpeed = 1;
-
         this.level = 1;
         this.numNPCSpawn = 1;
         this.NPCWeight = 0.5;
@@ -196,8 +168,6 @@ class SeedScene extends Scene {
 
         this.controller.NPCSpheres.push(anotherSphere);
         this.add(anotherSphere);
-
-
 
         this.player.changePos(new Vector3(0, 3, 0));
         this.player.setVel(new Vector3(0, 0, 0));

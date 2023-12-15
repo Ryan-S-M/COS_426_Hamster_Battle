@@ -35,7 +35,6 @@ class HamsterSphere extends Group {
         this.geometry = new SphereGeometry(radius);
         this.material = new MeshPhongMaterial( {color: color, transparent: true, opacity:0.4} );
         
-        // const cubeA = new THREE.Mesh( geometry, material );
         this.add(new Mesh(this.geometry, this.material));
 
         this.hamster = new Hamster(parent, 0.4, 0, 0, 0.1);
@@ -203,24 +202,13 @@ class HamsterSphere extends Group {
               "PANIC! This shouldn't have happened ever. Min should be one of options"
             );
           }
-        //   console.log("\n***************************************")
-        //   console.log("before intersecting: ", this.position);
-        //   console.log("posNoFriction: ", posNoFriction);
-        //   console.log("diff: ", diff);
+
           this.position.copy(posNoFriction.add(diff.clone().normalize().multiplyScalar(this.radius)));
-          
-        //   if (!this.touching.includes(box)) {
-        //     this.touching.push(box);
-        //   }
 
           // reflect velocity in this direction
           // TODO: FIGURE OUT WHY THIS DOESN"T WORK WITH RADIUS > 1
           const reflectVel = diff.clone().normalize().multiplyScalar(- 1 * this.velocity.dot(diff.clone().normalize()));
           this.velocity.add(reflectVel);
-
-
-
-
 
           // hacky?
           // approximate force applied to box
@@ -242,11 +230,6 @@ class HamsterSphere extends Group {
 
     // Verlet Integration, based on A5
     verletIntegrate(deltaT) {
-        // console.log("verlet called()");
-        // console.log("net force is ", this.netForce);
-        // console.log("net force: ", this.netForce);
-        // console.log("previous: ", this.previous);
-        // console.log("current position: ", this.position)
         const DAMPING = 0.03;
 
         // find the difference between current and previous positions
@@ -255,7 +238,6 @@ class HamsterSphere extends Group {
         // const diff = this.position.clone().sub(this.previous);
         const diff = this.velocity.clone();
 
-    
         // update current position
         this.previous = this.position;
 
@@ -271,16 +253,7 @@ class HamsterSphere extends Group {
         this.lastNetForce.copy(this.netForce);
         this.netForce = new Vector3(0, 0, 0);
 
-
-         // update velocity term
-        //  console.log("acceleration: ", a);
-        //  console.log("velocity: ", this.velocity);
-         this.velocity.add(a.multiplyScalar(deltaT));
-
-        //  if (this.previous.equals(this.position) && Math.abs(this.lastNetForce.length()) < 0.001) {
-        //     this.velocity = new Vector3();
-        //  }
-
+        this.velocity.add(a.multiplyScalar(deltaT));
     }
 
     // turn left
@@ -291,9 +264,6 @@ class HamsterSphere extends Group {
         const axis = new Vector3(0, 1, 0);
         this.direction.applyEuler(euler);
         this.hamster.rotateOnAxis(axis, THETA);
-
-        // debugging only
-
     }
 
     // turn right
@@ -303,10 +273,8 @@ class HamsterSphere extends Group {
         const axis = new Vector3(0, 1, 0);
         this.direction.applyEuler(euler);
         this.hamster.rotateOnAxis(axis, THETA);
-
-        // debugging
-        // this.velocity = this.direction;
     }
+    
     // apply forward force
     goForward() {
         this.addForce(this.direction.clone().multiplyScalar(this.power));
@@ -316,12 +284,7 @@ class HamsterSphere extends Group {
           anim.play()
         } 
     }
-
-    // goBackward() {
-    //     this.addForce(this.direction.clone().multiplyScalar(- this.power));
-    // }
-
-
+    
     // add force
     addForce(force) {
         this.netForce.add(force);
@@ -341,17 +304,13 @@ class HamsterSphere extends Group {
     setDirection(vec) {
         const v = vec.clone().normalize();
         const original = new Vector3(0, 0, -1);
-        // const axis = new Vector3(0, -1, 0);
         this.direction.copy(v);
         let theta = Math.acos(original.dot(v));
 
         const cross = original.clone().cross(v);
-        // console.log("cross: ", cross);
         if (cross.y < 0) {
             theta = - theta;
-            // console.log("negating");
         }
-        // console.log("dot product: ", original.dot(v));
         this.hamster.setRotationFromEuler(new Euler(0, theta, 0));
     }
     setPower(num) {
