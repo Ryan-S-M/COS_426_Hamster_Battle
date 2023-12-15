@@ -18,6 +18,11 @@ class SeedScene extends Scene {
             sphereList: [],
         };
 
+        // set level
+        this.level = 1;
+        this.numNPCSpawn = 1;
+        this.NPCWeight = 0.5;
+
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
         // this.background = new Color(0xff0000);
@@ -38,7 +43,7 @@ class SeedScene extends Scene {
         this.player = playerSphere;
         this.player.setPower(10);
 
-        const anotherSphere = new HamsterSphere(this, 1.25, 0, 0, 0, 1);
+        const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight);
         anotherSphere.changePos(new Vector3(-3, 3, 0));
         anotherSphere.setVel(new Vector3(0, 0, 0));
         // const sphere2 = new HamsterSphere(this, 1, 0, 0, 0, 1);
@@ -112,16 +117,37 @@ class SeedScene extends Scene {
                 sphere.goForward();
             }
             if (sphere.position.y < -10) {
+                console.log("about to despawn a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
                 this.controller.NPCSpheres.splice(i, 1);
+                console.log("despawned a hamster, number of NPCS is ", this.controller.NPCSpheres.length);
+                this.level += 1;
+                console.log("leveling up to: ", this.level);
+                if (this.level % 3 == 0) {
+                    this.numNPCSpawn += 1;
+                }
+                else {
+                    this.NPCWeight += 0.2;
+                }
             }
         }
 
         if (this.controller.NPCSpheres.length == 0) {
-            const anotherSphere = new HamsterSphere(this, 1.25, 0, 0, 0, 1);
-            anotherSphere.changePos(new Vector3(-3, 3, 0));
-            anotherSphere.setVel(new Vector3(0, 0, 0));
-            this.add(anotherSphere);
-            this.controller.NPCSpheres.push(anotherSphere);
+            // minX =  - this.box.geometry.parameters.width / 3;
+            const maxX = this.box.geometry.parameters.width / 3;
+            // minZ = - this.box.geometry.parameters.depth / 3;
+            const maxZ = this.box.geometry.parameters.depth / 3;
+
+
+
+            for (let k = 1; k <= this.numNPCSpawn; k++) {
+                const anotherSphere = new HamsterSphere(this, 1.15, 0, 0, 0, this.NPCWeight);
+                const xCoord = Math.random() * maxX * 2 - maxX;
+                const zCoord = Math.random() * maxZ * 2 - maxZ;
+                anotherSphere.changePos(new Vector3(xCoord, 3 * k, zCoord));
+                anotherSphere.setVel(new Vector3(0, 0, 0));
+                this.add(anotherSphere);
+                this.controller.NPCSpheres.push(anotherSphere);
+            }
         }
 
 
