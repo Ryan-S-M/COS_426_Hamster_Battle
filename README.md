@@ -1,10 +1,12 @@
 # COS 426 Final Project: Hamster Battle
-This skeleton project will help you get started with a ThreeJS project and provide a strong foundation for extension. It sets up a simple scene, camera, and renderer in a modern JavaScript environment, and is written using some common best-practices that you may want to draw from.
 
 Demo video: [Link to Google Drive](https://drive.google.com/file/d/1DS4l5MElb7InhGqHYxQFrgAKJYsA-fm5/view?usp=sharing).
 
-To see it running live on the web, check out the [Online Demo](https://ryan-s-m.github.io/COS_426_Hamster_Battle/)
+To see it running live on the web and play Hamster Battle, check out the [Online Demo](https://ryan-s-m.github.io/COS_426_Hamster_Battle/)
 
+To read our report, click [here](https://drive.google.com/file/d/18uEq9uJZyC5ZJKHaWKJER61VhMwtQEbL/view?usp=sharing)!
+
+# Below is the README for the skeleton repository we build our game on top of
 ## Cloning this template at Github
 To make your own copy of this project at Github, sign into your Github account, navigate to this project [at Github](https://github.com/adamfinkelstein/cos426finalproject/tree/main) and then click the big green button at the top: "Use this template" > "Create a new repository". 
 
