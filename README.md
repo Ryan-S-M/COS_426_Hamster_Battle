@@ -1,5 +1,5 @@
 # COS 426 Final Project: Hamster Battle
-Welcome to our final project, Hamster Battle! By Katie Baldwin <kgb2>, Jeremy Kiil <jkiil>, and Ryan McDowell <rm53>
+Welcome to our final project, Hamster Battle! By Katie Baldwin (kgb2), Jeremy Kiil (jkiil), and Ryan McDowell (rm53)
 
 Demo video: [Link to Google Drive](https://drive.google.com/file/d/1DS4l5MElb7InhGqHYxQFrgAKJYsA-fm5/view?usp=sharing).
 
