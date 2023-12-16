@@ -3,7 +3,7 @@ This skeleton project will help you get started with a ThreeJS project and provi
 
 Demo video: [Link to Google Drive](https://drive.google.com/file/d/1DS4l5MElb7InhGqHYxQFrgAKJYsA-fm5/view?usp=sharing).
 
-To see it running live on the web, check out the [Online Demo](https://adamfinkelstein.github.io/cos426finalproject/)
+To see it running live on the web, check out the [Online Demo](https://ryan-s-m.github.io/COS_426_Hamster_Battle/)
 
 ## Cloning this template at Github
 To make your own copy of this project at Github, sign into your Github account, navigate to this project [at Github](https://github.com/adamfinkelstein/cos426finalproject/tree/main) and then click the big green button at the top: "Use this template" > "Create a new repository". 
